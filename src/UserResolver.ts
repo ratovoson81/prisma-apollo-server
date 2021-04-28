@@ -7,7 +7,6 @@ import {
   Ctx,
   FieldResolver,
   Root,
-  Int,
   InputType,
   Field,
 } from "type-graphql";
