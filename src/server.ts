@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server";
-import { schema } from "./schema";
+import { schema } from "./typeDefs";
 import { context } from "./context";
 
 new ApolloServer({ schema, context: context }).listen({ port: 4000 }, () =>
