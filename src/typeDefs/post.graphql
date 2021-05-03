@@ -1,4 +1,3 @@
-export const typeDef = `
 type Post {
     author: User
     content: String
@@ -16,4 +15,3 @@ type Post {
   input PostOrderByUpdatedAtInput {
     updatedAt: SortOrder!
   }
-  `;
