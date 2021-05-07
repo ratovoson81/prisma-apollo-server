@@ -3,6 +3,7 @@ type User {
   id: Int!
   name: String
   posts: [Post!]!
+  token: String!
 }
 input UserCreateInput {
   email: String!

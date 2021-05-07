@@ -1,6 +1,7 @@
 import { DateTimeResolver } from "graphql-scalars";
 import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
+import jwt from "jsonwebtoken";
 
 export const UserResolvers: IResolvers = {
   Query: {
@@ -69,6 +70,7 @@ export const UserResolvers: IResolvers = {
         data: {
           name: args.data.name,
           email: args.data.email,
+          token: jwt.sign("newUser", "supersecret"),
           posts: {
             create: postData,
           },
