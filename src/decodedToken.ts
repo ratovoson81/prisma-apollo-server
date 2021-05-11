@@ -7,10 +7,10 @@ export function getTokenPayload(token: String) {
 
 export function getUserId(
   req: { headers: { authorization: any } },
-  authToken: String
+  authToken?: String
 ) {
   if (req) {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace("Bearer ", "");
 

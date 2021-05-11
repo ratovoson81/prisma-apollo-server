@@ -3,19 +3,15 @@ import { prisma } from "./context";
 import express from "express";
 import resolvers from "./resolversMap";
 import { ApolloServer } from "apollo-server-express";
-import { getUserId } from "./decodedToken";
 
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
-    return {
-      ...req,
-      prisma,
-      userId: req && req.headers.authorization ? getUserId(req) : null,
-    };
-  },
+  context: (req) => ({
+    req,
+    prisma,
+  }),
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
