@@ -1,14 +1,18 @@
 import typeDefs from "./typeDefs";
-import { context } from "./context";
+import { prisma } from "./context";
 import express from "express";
 import resolvers from "./resolversMap";
 import { ApolloServer } from "apollo-server-express";
+import { getUserId } from "./decodedToken";
 
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: context,
+  context: (req) => ({
+    prisma,
+    req,
+  }),
 });
 
 server.applyMiddleware({ app, path: "/graphql" });

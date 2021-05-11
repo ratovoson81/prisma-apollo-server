@@ -2,13 +2,14 @@ import { DateTimeResolver } from "graphql-scalars";
 import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
+import { getUserId } from "../../decodedToken";
 
 export const UserResolvers: IResolvers = {
   Query: {
     allUsers: (_parent, _args, context: Context) => {
       return context.prisma.user.findMany();
     },
-    feed: (
+    feed: async (
       _parent,
       args: {
         searchString: string;
@@ -18,6 +19,8 @@ export const UserResolvers: IResolvers = {
       },
       context: Context
     ) => {
+      const userId = getUserId(context.req);
+      console.log(userId);
       const or = args.searchString
         ? {
             OR: [
@@ -27,7 +30,7 @@ export const UserResolvers: IResolvers = {
           }
         : {};
 
-      return context.prisma.post.findMany({
+      return await context.prisma.post.findMany({
         where: {
           published: true,
           ...or,
