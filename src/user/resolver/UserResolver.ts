@@ -2,7 +2,6 @@ import { DateTimeResolver } from "graphql-scalars";
 import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
-import { getUserId } from "../../decodedToken";
 
 export const UserResolvers: IResolvers = {
   Query: {
@@ -19,7 +18,7 @@ export const UserResolvers: IResolvers = {
       },
       context: Context
     ) => {
-      const userId = getUserId(context.req);
+      const { userId } = context;
       console.log(userId);
       const or = args.searchString
         ? {

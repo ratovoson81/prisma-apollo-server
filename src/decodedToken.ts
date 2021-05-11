@@ -5,9 +5,12 @@ export function getTokenPayload(token: String) {
   return jwt.verify(token, APP_SECRET);
 }
 
-export function getUserId(req: any, authToken?: String) {
+export function getUserId(
+  req: { headers: { authorization: any } },
+  authToken: String
+) {
   if (req) {
-    const authHeader = req.req.headers.authorization;
+    const authHeader = req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace("Bearer ", "");
 

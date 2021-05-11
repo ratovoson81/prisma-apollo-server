@@ -9,10 +9,13 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: (req) => ({
-    prisma,
-    req,
-  }),
+  context: ({ req }) => {
+    return {
+      ...req,
+      prisma,
+      userId: req && req.headers.authorization ? getUserId(req) : null,
+    };
+  },
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
