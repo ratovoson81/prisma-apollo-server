@@ -119,6 +119,7 @@ export type User = {
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
   posts: Array<Post>;
+  token: Scalars['String'];
 };
 
 export type UserCreateInput = {
@@ -289,6 +290,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
