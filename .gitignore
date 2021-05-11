@@ -5,5 +5,4 @@ dist
 package-lock.json
 yarn.lock
 
-prisma/migrations/
-prisma/migrations/migration_lock.toml
+prisma
