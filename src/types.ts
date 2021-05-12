@@ -19,6 +19,14 @@ export type Scalars = {
 };
 
 
+export type AuthReturn = {
+  __typename?: 'AuthReturn';
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  token: Scalars['String'];
+};
+
 export enum CacheControlScope {
   Public = 'PUBLIC',
   Private = 'PRIVATE'
@@ -30,8 +38,9 @@ export type Mutation = {
   createDraft?: Maybe<Post>;
   deletePost?: Maybe<Post>;
   incrementPostViewCount?: Maybe<Post>;
-  signupUser: User;
+  signupUser: AuthReturn;
   togglePublishPost?: Maybe<Post>;
+  loginUser?: Maybe<User>;
 };
 
 
@@ -58,6 +67,11 @@ export type MutationSignupUserArgs = {
 
 export type MutationTogglePublishPostArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationLoginUserArgs = {
+  data?: Maybe<UserLoginInput>;
 };
 
 export type Post = {
@@ -125,7 +139,13 @@ export type User = {
 export type UserCreateInput = {
   email: Scalars['String'];
   name?: Maybe<Scalars['String']>;
+  password: Scalars['String'];
   posts?: Maybe<Array<PostCreateInput>>;
+};
+
+export type UserLoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type UserUniqueInput = {
@@ -211,11 +231,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AuthReturn: ResolverTypeWrapper<AuthReturn>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Mutation: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Post: ResolverTypeWrapper<Post>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   PostCreateInput: PostCreateInput;
@@ -225,15 +246,17 @@ export type ResolversTypes = {
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   User: ResolverTypeWrapper<User>;
   UserCreateInput: UserCreateInput;
+  UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AuthReturn: AuthReturn;
+  Int: Scalars['Int'];
+  String: Scalars['String'];
   DateTime: Scalars['DateTime'];
   Mutation: {};
-  String: Scalars['String'];
-  Int: Scalars['Int'];
   Post: Post;
   Boolean: Scalars['Boolean'];
   PostCreateInput: PostCreateInput;
@@ -242,6 +265,7 @@ export type ResolversParentTypes = {
   Upload: Scalars['Upload'];
   User: User;
   UserCreateInput: UserCreateInput;
+  UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
 };
 
@@ -249,6 +273,14 @@ export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
   scope?: Maybe<CacheControlScope>; };
 
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type AuthReturnResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthReturn'] = ResolversParentTypes['AuthReturn']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
@@ -258,8 +290,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createDraft?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationCreateDraftArgs, 'authorEmail' | 'data'>>;
   deletePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'id'>>;
   incrementPostViewCount?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationIncrementPostViewCountArgs, 'id'>>;
-  signupUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSignupUserArgs, 'data'>>;
+  signupUser?: Resolver<ResolversTypes['AuthReturn'], ParentType, ContextType, RequireFields<MutationSignupUserArgs, 'data'>>;
   togglePublishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationTogglePublishPostArgs, 'id'>>;
+  loginUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLoginUserArgs, never>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -295,6 +328,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  AuthReturn?: AuthReturnResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;

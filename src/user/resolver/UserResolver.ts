@@ -3,6 +3,8 @@ import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
 import { getUserId } from "../../decodedToken";
+import bcrypt from "bcrypt";
+import { AuthReturn, User } from "../../types";
 
 export const UserResolvers: IResolvers = {
   Query: {
@@ -60,7 +62,7 @@ export const UserResolvers: IResolvers = {
     },
   },
   Mutation: {
-    signupUser: (
+    signupUser: async (
       _parent,
       args: { data: UserCreateInput },
       context: Context
@@ -69,16 +71,42 @@ export const UserResolvers: IResolvers = {
         return { title: post.title, content: post.content || undefined };
       });
 
-      return context.prisma.user.create({
+      const newUser = await context.prisma.user.create({
         data: {
           name: args.data.name,
           email: args.data.email,
-          token: jwt.sign("newUser", "supersecret"),
+          password: bcrypt.hashSync(args.data.password, 3),
           posts: {
             create: postData,
           },
         },
       });
+      const value: AuthReturn = {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        token: jwt.sign(args.data.email, "supersecret"),
+      };
+      return value;
+    },
+    loginUser: async (
+      _parent,
+      args: { data: UserLoginInput },
+      { prisma },
+      info
+    ) => {
+      const {
+        data: { email, password },
+      } = args;
+      const [theUser] = await prisma.users({
+        where: {
+          email,
+        },
+      });
+      if (!theUser) throw new Error("Unable to Login");
+      const isMatch = bcrypt.compareSync(password, theUser.password);
+      if (!isMatch) throw new Error("Unable to Login");
+      return { token: jwt.sign(theUser, "supersecret") };
     },
     createDraft: (
       _parent,
@@ -130,5 +158,11 @@ interface PostCreateInput {
 interface UserCreateInput {
   email: string;
   name?: string;
+  password: string;
   posts?: PostCreateInput[];
+}
+
+interface UserLoginInput {
+  email: string;
+  password: string;
 }

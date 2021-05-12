@@ -8,9 +8,22 @@ type User {
 input UserCreateInput {
   email: String!
   name: String
+  password: String!
   posts: [PostCreateInput!]
 }
 input UserUniqueInput {
   email: String
   id: Int
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
+type AuthReturn {
+  id: Int!
+  name: String
+  email: String!
+  token: String!
 }
