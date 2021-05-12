@@ -1,14 +1,11 @@
 import jwt from "jsonwebtoken";
 const APP_SECRET = "supersecret";
 
-export function getTokenPayload(token: String) {
+export function getTokenPayload(token: string) {
   return jwt.verify(token, APP_SECRET);
 }
 
-export function getUserId(
-  req: { headers: { authorization: any } },
-  authToken?: String
-) {
+export function getUserId(req: any, authToken?: string) {
   if (req) {
     const authHeader = req.req.headers.authorization;
     if (authHeader) {
@@ -22,7 +19,7 @@ export function getUserId(
       return userId;
     }
   } else if (authToken) {
-    const { userId } = getTokenPayload(authToken);
+    const userId = getTokenPayload(authToken);
     return userId;
   }
 

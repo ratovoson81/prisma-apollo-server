@@ -19,10 +19,10 @@ export const UserResolvers = {
         take: number;
         orderBy: PostOrderByUpdatedAtInput;
       },
-      context: Context
+      context: any
     ) => {
       const userId = getUserId(context.req);
-      console.log(userId);
+      console.log("id", userId);
       const or = args.searchString
         ? {
             OR: [
@@ -85,7 +85,7 @@ export const UserResolvers = {
         id: newUser.id,
         name: newUser.name,
         email: newUser.email,
-        token: jwt.sign(args.data.email, "supersecret"),
+        token: jwt.sign(newUser.id.toString(), "supersecret"),
       };
       return value;
     },
