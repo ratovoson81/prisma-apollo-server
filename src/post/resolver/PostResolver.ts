@@ -2,9 +2,9 @@ import { DateTimeResolver } from "graphql-scalars";
 import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
 
-export const PostResolvers: IResolvers = {
+export const PostResolvers = {
   Query: {
-    postById: (_parent, args: { id: number }, context: Context) => {
+    postById: (_parent: any, args: { id: number }, context: Context) => {
       return context.prisma.post.findUnique({
         where: { id: args.id || undefined },
       });
@@ -12,7 +12,7 @@ export const PostResolvers: IResolvers = {
   },
   Mutation: {
     createDraft: (
-      _parent,
+      _parent: any,
       args: { data: PostCreateInput; authorEmail: string },
       context: Context
     ) => {
@@ -27,7 +27,7 @@ export const PostResolvers: IResolvers = {
       });
     },
     togglePublishPost: async (
-      _parent,
+      _parent: any,
       args: { id: number },
       context: Context
     ) => {
@@ -50,7 +50,7 @@ export const PostResolvers: IResolvers = {
       }
     },
     incrementPostViewCount: (
-      _parent,
+      _parent: any,
       args: { id: number },
       context: Context
     ) => {
@@ -63,7 +63,7 @@ export const PostResolvers: IResolvers = {
         },
       });
     },
-    deletePost: (_parent, args: { id: number }, context: Context) => {
+    deletePost: (_parent: any, args: { id: number }, context: Context) => {
       return context.prisma.post.delete({
         where: { id: args.id },
       });
@@ -71,7 +71,7 @@ export const PostResolvers: IResolvers = {
   },
   DateTime: DateTimeResolver,
   Post: {
-    author: (parent, _args, context: Context) => {
+    author: (parent: { id: any }, _args: any, context: Context) => {
       return context.prisma.post
         .findUnique({
           where: { id: parent?.id },

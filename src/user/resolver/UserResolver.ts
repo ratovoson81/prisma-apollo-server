@@ -6,13 +6,13 @@ import { getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
 import { AuthReturn, User } from "../../types";
 
-export const UserResolvers: IResolvers = {
+export const UserResolvers = {
   Query: {
-    allUsers: (_parent, _args, context: Context) => {
+    allUsers: (_parent: any, _args: any, context: Context) => {
       return context.prisma.user.findMany();
     },
     feed: async (
-      _parent,
+      _parent: any,
       args: {
         searchString: string;
         skip: number;
@@ -43,7 +43,7 @@ export const UserResolvers: IResolvers = {
       });
     },
     draftsByUser: (
-      _parent,
+      _parent: any,
       args: { userUniqueInput: UserUniqueInput },
       context: Context
     ) => {
@@ -63,7 +63,7 @@ export const UserResolvers: IResolvers = {
   },
   Mutation: {
     signupUser: async (
-      _parent,
+      _parent: any,
       args: { data: UserCreateInput },
       context: Context
     ) => {
@@ -90,10 +90,10 @@ export const UserResolvers: IResolvers = {
       return value;
     },
     loginUser: async (
-      _parent,
+      _parent: any,
       args: { data: UserLoginInput },
-      { prisma },
-      info
+      { prisma }: any,
+      info: any
     ) => {
       const {
         data: { email, password },
@@ -109,7 +109,7 @@ export const UserResolvers: IResolvers = {
       return { token: jwt.sign(theUser, "supersecret") };
     },
     createDraft: (
-      _parent,
+      _parent: any,
       args: { data: PostCreateInput; authorEmail: string },
       context: Context
     ) => {
@@ -126,7 +126,7 @@ export const UserResolvers: IResolvers = {
   },
   DateTime: DateTimeResolver,
   User: {
-    posts: (parent, _args, context: Context) => {
+    posts: (parent: { id: any }, _args: any, context: Context) => {
       return context.prisma.user
         .findUnique({
           where: { id: parent?.id },
