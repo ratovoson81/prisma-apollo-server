@@ -25,3 +25,18 @@ export function getUserId(req: any, authToken?: string) {
 
   throw new Error("Not authenticated");
 }
+
+export function destroyToken(req: any) {
+  if (req) {
+    const authHeader = req.req.headers.authorization;
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+
+      if (!token) {
+        throw new Error("No token found");
+      }
+      console.log("ss", jwt.decode(token));
+    }
+  }
+  throw new Error("Not authenticated");
+}

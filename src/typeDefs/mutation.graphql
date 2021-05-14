@@ -5,4 +5,5 @@ type Mutation {
   signupUser(data: UserCreateInput!): AuthPayLoad!
   togglePublishPost(id: Int!): Post
   loginUser(data: UserLoginInput): AuthPayLoad!
+  logout: Boolean!
 }

@@ -1,7 +1,7 @@
 import { DateTimeResolver } from "graphql-scalars";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
-import { getUserId } from "../../decodedToken";
+import { destroyToken, getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
 
 export const UserResolvers = {
@@ -19,6 +19,7 @@ export const UserResolvers = {
       },
       context: Context
     ) => {
+      //destroyToken(context.req);
       const userId = getUserId(context.req);
       console.log("id", userId);
       const or = args.searchString
@@ -80,7 +81,9 @@ export const UserResolvers = {
         },
       });
       return {
-        token: jwt.sign(newUser.id.toString(), "supersecret"),
+        token: jwt.sign({ userId: newUser.id }, "supersecret", {
+          expiresIn: "7d",
+        }),
       };
     },
     loginUser: async (
@@ -101,8 +104,13 @@ export const UserResolvers = {
       const isMatch = bcrypt.compareSync(password, theUser.password);
       if (!isMatch) throw new Error("incorrect password");
 
-      return { token: jwt.sign(theUser, "supersecret") };
+      return {
+        token: jwt.sign({ userId: theUser.id }, "supersecret", {
+          expiresIn: "7d",
+        }),
+      };
     },
+    logout: (_parent: any, args: {}, context: Context, info: any) => {},
     createDraft: (
       _parent: any,
       args: { data: PostCreateInput; authorEmail: string },
