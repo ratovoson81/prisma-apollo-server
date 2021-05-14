@@ -1,10 +1,8 @@
 import { DateTimeResolver } from "graphql-scalars";
-import { IResolvers } from "graphql-tools";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
 import { getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
-import { AuthReturn, User } from "../../types";
 
 export const UserResolvers = {
   Query: {
@@ -19,7 +17,7 @@ export const UserResolvers = {
         take: number;
         orderBy: PostOrderByUpdatedAtInput;
       },
-      context: any
+      context: Context
     ) => {
       const userId = getUserId(context.req);
       console.log("id", userId);
@@ -81,31 +79,28 @@ export const UserResolvers = {
           },
         },
       });
-      const value: AuthReturn = {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
+      return {
         token: jwt.sign(newUser.id.toString(), "supersecret"),
       };
-      return value;
     },
     loginUser: async (
       _parent: any,
       args: { data: UserLoginInput },
-      { prisma }: any,
+      context: Context,
       info: any
     ) => {
       const {
         data: { email, password },
       } = args;
-      const [theUser] = await prisma.users({
+      const theUser = await context.prisma.user.findUnique({
         where: {
           email,
         },
       });
-      if (!theUser) throw new Error("Unable to Login");
+      if (!theUser) throw new Error("user not found");
       const isMatch = bcrypt.compareSync(password, theUser.password);
-      if (!isMatch) throw new Error("Unable to Login");
+      if (!isMatch) throw new Error("incorrect password");
+
       return { token: jwt.sign(theUser, "supersecret") };
     },
     createDraft: (

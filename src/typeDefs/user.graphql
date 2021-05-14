@@ -3,7 +3,6 @@ type User {
   id: Int!
   name: String
   posts: [Post!]!
-  token: String!
 }
 input UserCreateInput {
   email: String!
@@ -21,9 +20,6 @@ input UserLoginInput {
   password: String!
 }
 
-type AuthReturn {
-  id: Int!
-  name: String
-  email: String!
+type AuthPayLoad {
   token: String!
 }

@@ -19,11 +19,8 @@ export type Scalars = {
 };
 
 
-export type AuthReturn = {
-  __typename?: 'AuthReturn';
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
+export type AuthPayLoad = {
+  __typename?: 'AuthPayLoad';
   token: Scalars['String'];
 };
 
@@ -38,9 +35,9 @@ export type Mutation = {
   createDraft?: Maybe<Post>;
   deletePost?: Maybe<Post>;
   incrementPostViewCount?: Maybe<Post>;
-  signupUser: AuthReturn;
+  signupUser: AuthPayLoad;
   togglePublishPost?: Maybe<Post>;
-  loginUser?: Maybe<User>;
+  loginUser: AuthPayLoad;
 };
 
 
@@ -133,7 +130,6 @@ export type User = {
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
   posts: Array<Post>;
-  token: Scalars['String'];
 };
 
 export type UserCreateInput = {
@@ -231,12 +227,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  AuthReturn: ResolverTypeWrapper<AuthReturn>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
+  AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
   String: ResolverTypeWrapper<Scalars['String']>;
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Post: ResolverTypeWrapper<Post>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   PostCreateInput: PostCreateInput;
@@ -252,11 +248,11 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  AuthReturn: AuthReturn;
-  Int: Scalars['Int'];
+  AuthPayLoad: AuthPayLoad;
   String: Scalars['String'];
   DateTime: Scalars['DateTime'];
   Mutation: {};
+  Int: Scalars['Int'];
   Post: Post;
   Boolean: Scalars['Boolean'];
   PostCreateInput: PostCreateInput;
@@ -274,10 +270,7 @@ export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
 
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AuthReturnResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthReturn'] = ResolversParentTypes['AuthReturn']> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type AuthPayLoadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayLoad'] = ResolversParentTypes['AuthPayLoad']> = {
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -290,9 +283,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createDraft?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationCreateDraftArgs, 'authorEmail' | 'data'>>;
   deletePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'id'>>;
   incrementPostViewCount?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationIncrementPostViewCountArgs, 'id'>>;
-  signupUser?: Resolver<ResolversTypes['AuthReturn'], ParentType, ContextType, RequireFields<MutationSignupUserArgs, 'data'>>;
+  signupUser?: Resolver<ResolversTypes['AuthPayLoad'], ParentType, ContextType, RequireFields<MutationSignupUserArgs, 'data'>>;
   togglePublishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationTogglePublishPostArgs, 'id'>>;
-  loginUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLoginUserArgs, never>>;
+  loginUser?: Resolver<ResolversTypes['AuthPayLoad'], ParentType, ContextType, RequireFields<MutationLoginUserArgs, never>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -323,12 +316,11 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  AuthReturn?: AuthReturnResolvers<ContextType>;
+  AuthPayLoad?: AuthPayLoadResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;

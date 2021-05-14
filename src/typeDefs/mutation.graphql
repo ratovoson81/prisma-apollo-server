@@ -2,7 +2,7 @@ type Mutation {
   createDraft(authorEmail: String!, data: PostCreateInput!): Post
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
-  signupUser(data: UserCreateInput!): AuthReturn!
+  signupUser(data: UserCreateInput!): AuthPayLoad!
   togglePublishPost(id: Int!): Post
-  loginUser(data: UserLoginInput): User
+  loginUser(data: UserLoginInput): AuthPayLoad!
 }
