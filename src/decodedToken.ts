@@ -35,6 +35,7 @@ export function destroyToken(req: any) {
       if (!token) {
         throw new Error("No token found");
       }
+      //destroy token
       console.log("ss", jwt.decode(token));
     }
   }
