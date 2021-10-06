@@ -84,6 +84,8 @@ export const UserResolvers = {
         token: jwt.sign({ userId: newUser.id }, "supersecret", {
           expiresIn: "7d",
         }),
+        email: newUser.email,
+        name: newUser.name,
       };
     },
     loginUser: async (

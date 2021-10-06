@@ -22,4 +22,6 @@ input UserLoginInput {
 
 type AuthPayLoad {
   token: String!
+  email: String
+  name: String
 }
