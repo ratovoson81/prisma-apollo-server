@@ -6,4 +6,5 @@ type Mutation {
   togglePublishPost(id: Int!): Post
   loginUser(data: UserLoginInput): AuthPayLoad!
   logout: Boolean!
+  isLogged: User
 }

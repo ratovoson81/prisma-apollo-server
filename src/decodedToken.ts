@@ -16,7 +16,7 @@ export function getUserId(req: any, authToken?: string) {
       }
       const userId = getTokenPayload(token);
 
-      return userId;
+      return userId as any;
     }
   } else if (authToken) {
     const userId = getTokenPayload(authToken);

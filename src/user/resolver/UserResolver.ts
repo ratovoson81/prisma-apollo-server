@@ -1,7 +1,7 @@
 import { DateTimeResolver } from "graphql-scalars";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
-import { destroyToken, getUserId } from "../../decodedToken";
+import { getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
 
 export const UserResolvers = {
@@ -111,6 +111,15 @@ export const UserResolvers = {
           expiresIn: "7d",
         }),
       };
+    },
+    isLogged: (_parent: any, args: {}, context: Context, info: any) => {
+      const decryptedToken = getUserId(context.req);
+      const user = context.prisma.user.findUnique({
+        where: {
+          id: decryptedToken.userId,
+        },
+      });
+      return user;
     },
     logout: (_parent: any, args: {}, context: Context, info: any) => {},
     createDraft: (
