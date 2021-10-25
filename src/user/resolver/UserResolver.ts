@@ -102,9 +102,9 @@ export const UserResolvers = {
           email,
         },
       });
-      if (!theUser) throw new Error("user not found");
+      if (!theUser) throw new Error("Utilisateur inexistant");
       const isMatch = bcrypt.compareSync(password, theUser.password);
-      if (!isMatch) throw new Error("incorrect password");
+      if (!isMatch) throw new Error("Mot de passe incorrect");
 
       return {
         token: jwt.sign({ userId: theUser.id }, "supersecret", {
