@@ -11,11 +11,16 @@ generator client {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  password String
-  posts    Post[]
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String?
+  password   String
+  imageUrl   String?
+  IsOnline   Boolean   @default(false)
+  posts      Post[]
+  //messages Message[]
+  fromUserId Message[] @relation("from")
+  toUserId   Message[] @relation("to")
 }
 
 model Post {
@@ -28,4 +33,14 @@ model Post {
   viewCount Int      @default(0)
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  from       User     @relation("from", fields: [fromUserId], references: [id])
+  fromUserId Int
+  to         User     @relation("to", fields: [toUserId], references: [id])
+  toUserId   Int
+  date       DateTime @default(now())
 }
