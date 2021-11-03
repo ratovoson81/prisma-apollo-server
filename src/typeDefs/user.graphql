@@ -6,7 +6,7 @@ type User {
 }
 input UserCreateInput {
   email: String!
-  name: String
+  name: String!
   password: String!
   posts: [PostCreateInput!]
 }

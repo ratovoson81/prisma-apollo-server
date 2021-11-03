@@ -1,0 +1,13 @@
+type Message {
+  id: Int!
+  content: String!
+  from: User!
+  to: User!
+  date: DateTime!
+}
+input MessageInput {
+  content: String!
+  idFrom: Int!
+  idTo: Int!
+  date: DateTime!
+}

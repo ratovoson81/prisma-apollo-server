@@ -1,11 +1,17 @@
 type Query {
-    allUsers: [User!]!
-    draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
-    feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
-    postById(id: Int): Post
-  }
-  enum SortOrder {
-    asc
-    desc
-  }
-  scalar DateTime
+  allUsers: [User!]!
+  draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
+  feed(
+    orderBy: PostOrderByUpdatedAtInput
+    searchString: String
+    skip: Int
+    take: Int
+  ): [Post!]!
+  postById(id: Int): Post
+  message: [Message!]!
+}
+enum SortOrder {
+  asc
+  desc
+}
+scalar DateTime

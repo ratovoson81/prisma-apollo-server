@@ -3,6 +3,7 @@ import { Context } from "../../context";
 import jwt from "jsonwebtoken";
 import { getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
+import { UserCreateInput } from "../../types";
 
 export const UserResolvers = {
   Query: {
@@ -20,6 +21,7 @@ export const UserResolvers = {
       context: Context
     ) => {
       //destroyToken(context.req);
+      //guard query
       const userId = getUserId(context.req);
       console.log("id", userId);
       const or = args.searchString
@@ -170,12 +172,12 @@ interface PostCreateInput {
   content?: string;
 }
 
-interface UserCreateInput {
+/*interface UserCreateInput {
   email: string;
-  name?: string;
+  name: string;
   password: string;
   posts?: PostCreateInput[];
-}
+}*/
 
 interface UserLoginInput {
   email: string;

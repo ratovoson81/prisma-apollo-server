@@ -7,4 +7,5 @@ type Mutation {
   loginUser(data: UserLoginInput): LoginAuthReturn!
   logout: Boolean!
   isLogged: User
+  sendMessage(data: MessageInput!): Message!
 }
