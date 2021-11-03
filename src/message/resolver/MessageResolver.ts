@@ -4,12 +4,7 @@ import { MessageInput } from "../../types";
 export const MessageResolvers = {
   Query: {
     message: (_parent: any, _args: any, context: Context) => {
-      return context.prisma.message.findMany({
-        include: {
-          from: true,
-          to: true,
-        },
-      });
+      return context.prisma.message.findMany({});
     },
   },
   Mutation: {
@@ -18,16 +13,6 @@ export const MessageResolvers = {
       args: { data: MessageInput },
       context: Context
     ) => {
-      const userFrom = context.prisma.user.findUnique({
-        where: {
-          id: args.data.idFrom,
-        },
-      });
-      const userto = context.prisma.user.findUnique({
-        where: {
-          id: args.data.idTo,
-        },
-      });
       const newMessage = await context.prisma.message.create({
         data: {
           content: args.data.content,
@@ -43,12 +28,24 @@ export const MessageResolvers = {
           },
           date: args.data.date,
         },
-        include: {
-          from: true,
-          to: true,
-        },
       });
       return newMessage;
+    },
+  },
+  Message: {
+    from: (parent: { id: any }, _args: any, context: Context) => {
+      return context.prisma.message
+        .findUnique({
+          where: { id: parent?.id },
+        })
+        .from();
+    },
+    to: (parent: { id: any }, _args: any, context: Context) => {
+      return context.prisma.message
+        .findUnique({
+          where: { id: parent?.id },
+        })
+        .to();
     },
   },
 };
