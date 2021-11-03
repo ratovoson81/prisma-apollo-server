@@ -11,3 +11,7 @@ input MessageInput {
   idTo: Int!
   date: DateTime!
 }
+input ArgsMessageChat {
+  idFrom: Int!
+  idTo: Int!
+}

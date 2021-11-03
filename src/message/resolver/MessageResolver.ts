@@ -1,10 +1,22 @@
 import { Context } from "./../../context";
-import { MessageInput } from "../../types";
+import { ArgsMessageChat, MessageInput } from "../../types";
 
 export const MessageResolvers = {
   Query: {
     message: (_parent: any, _args: any, context: Context) => {
       return context.prisma.message.findMany({});
+    },
+    messageByUser: (
+      _parent: any,
+      args: { data: ArgsMessageChat },
+      context: Context
+    ) => {
+      return context.prisma.message.findMany({
+        where: {
+          fromUserId: args.data.idFrom,
+          toUserId: args.data.idTo,
+        },
+      });
     },
   },
   Mutation: {

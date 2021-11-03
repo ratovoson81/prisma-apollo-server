@@ -19,6 +19,11 @@ export type Scalars = {
 };
 
 
+export type ArgsMessageChat = {
+  idFrom: Scalars['Int'];
+  idTo: Scalars['Int'];
+};
+
 export type AuthPayLoad = {
   __typename?: 'AuthPayLoad';
   token: Scalars['String'];
@@ -64,6 +69,7 @@ export type Mutation = {
   loginUser: LoginAuthReturn;
   logout: Scalars['Boolean'];
   isLogged?: Maybe<User>;
+  sendMessage: Message;
 };
 
 
@@ -97,6 +103,11 @@ export type MutationLoginUserArgs = {
   data?: Maybe<UserLoginInput>;
 };
 
+
+export type MutationSendMessageArgs = {
+  data: MessageInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   author?: Maybe<User>;
@@ -124,6 +135,8 @@ export type Query = {
   draftsByUser?: Maybe<Array<Maybe<Post>>>;
   feed: Array<Post>;
   postById?: Maybe<Post>;
+  message: Array<Message>;
+  messageByUser: Array<Message>;
 };
 
 
@@ -142,6 +155,11 @@ export type QueryFeedArgs = {
 
 export type QueryPostByIdArgs = {
   id?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryMessageByUserArgs = {
+  data: ArgsMessageChat;
 };
 
 export enum SortOrder {
@@ -253,13 +271,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  ArgsMessageChat: ArgsMessageChat;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
   String: ResolverTypeWrapper<Scalars['String']>;
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   LoginAuthReturn: ResolverTypeWrapper<LoginAuthReturn>;
   Message: ResolverTypeWrapper<Message>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   MessageInput: MessageInput;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -277,12 +296,13 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  ArgsMessageChat: ArgsMessageChat;
+  Int: Scalars['Int'];
   AuthPayLoad: AuthPayLoad;
   String: Scalars['String'];
   DateTime: Scalars['DateTime'];
   LoginAuthReturn: LoginAuthReturn;
   Message: Message;
-  Int: Scalars['Int'];
   MessageInput: MessageInput;
   Mutation: {};
   Boolean: Scalars['Boolean'];
@@ -337,6 +357,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   loginUser?: Resolver<ResolversTypes['LoginAuthReturn'], ParentType, ContextType, RequireFields<MutationLoginUserArgs, never>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isLogged?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  sendMessage?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'data'>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -356,6 +377,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   draftsByUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType, RequireFields<QueryDraftsByUserArgs, 'userUniqueInput'>>;
   feed?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryFeedArgs, never>>;
   postById?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostByIdArgs, never>>;
+  message?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
+  messageByUser?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryMessageByUserArgs, 'data'>>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
