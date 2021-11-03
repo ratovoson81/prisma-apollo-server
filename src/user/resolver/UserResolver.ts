@@ -107,6 +107,7 @@ export const UserResolvers = {
       if (!isMatch) throw new Error("Mot de passe incorrect");
 
       return {
+        theUser,
         token: jwt.sign({ userId: theUser.id }, "supersecret", {
           expiresIn: "7d",
         }),

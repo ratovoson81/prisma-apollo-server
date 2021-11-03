@@ -4,7 +4,7 @@ type Mutation {
   incrementPostViewCount(id: Int!): Post
   signupUser(data: UserCreateInput!): AuthPayLoad!
   togglePublishPost(id: Int!): Post
-  loginUser(data: UserLoginInput): AuthPayLoad!
+  loginUser(data: UserLoginInput): LoginAuthReturn!
   logout: Boolean!
   isLogged: User
 }

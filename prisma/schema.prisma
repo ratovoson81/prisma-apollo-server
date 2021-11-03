@@ -13,7 +13,7 @@ generator client {
 model User {
   id         Int       @id @default(autoincrement())
   email      String    @unique
-  name       String?
+  name       String
   password   String
   imageUrl   String?
   IsOnline   Boolean   @default(false)
