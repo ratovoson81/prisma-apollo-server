@@ -1,3 +1,4 @@
+import { Message, MessageChat } from "./../../types";
 import { Context } from "./../../context";
 import { ArgsMessageChat, MessageInput } from "../../types";
 
@@ -17,6 +18,41 @@ export const MessageResolvers = {
           toUserId: args.data.idTo,
         },
       });
+    },
+    getChat: async (
+      _parent: any,
+      args: { data: ArgsMessageChat },
+      context: Context
+    ) => {
+      const myMessage = await context.prisma.message.findMany({
+        where: {
+          fromUserId: args.data.idFrom,
+          toUserId: args.data.idTo,
+        },
+        /*include: {
+          from: true,
+          to: true,
+        },*/
+      }); /*as unknown as MessageChat[];
+      myMessage.forEach(function (element) {
+        element.mine = true;
+      });*/
+
+      const hisMessage = await context.prisma.message.findMany({
+        where: {
+          fromUserId: args.data.idTo,
+          toUserId: args.data.idFrom,
+        },
+        /*include: {
+          from: true,
+          to: true,
+        },*/
+      }); /*as unknown as MessageChat[];
+      hisMessage.forEach(function (element) {
+        element.mine = false;
+      });*/
+
+      return [...myMessage, ...hisMessage];
     },
   },
   Mutation: {

@@ -10,6 +10,7 @@ type Query {
   postById(id: Int): Post
   message: [Message!]!
   messageByUser(data: ArgsMessageChat!): [Message!]!
+  getChat(data: ArgsMessageChat!): [Message!]!
 }
 enum SortOrder {
   asc

@@ -15,3 +15,11 @@ input ArgsMessageChat {
   idFrom: Int!
   idTo: Int!
 }
+type MessageChat {
+  id: Int!
+  content: String!
+  from: User!
+  to: User!
+  date: DateTime!
+  mine: Boolean!
+}

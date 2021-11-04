@@ -52,6 +52,16 @@ export type Message = {
   date: Scalars['DateTime'];
 };
 
+export type MessageChat = {
+  __typename?: 'MessageChat';
+  id: Scalars['Int'];
+  content: Scalars['String'];
+  from: User;
+  to: User;
+  date: Scalars['DateTime'];
+  mine: Scalars['Boolean'];
+};
+
 export type MessageInput = {
   content: Scalars['String'];
   idFrom: Scalars['Int'];
@@ -137,6 +147,7 @@ export type Query = {
   postById?: Maybe<Post>;
   message: Array<Message>;
   messageByUser: Array<Message>;
+  getChat: Array<MessageChat>;
 };
 
 
@@ -159,6 +170,11 @@ export type QueryPostByIdArgs = {
 
 
 export type QueryMessageByUserArgs = {
+  data: ArgsMessageChat;
+};
+
+
+export type QueryGetChatArgs = {
   data: ArgsMessageChat;
 };
 
@@ -279,9 +295,10 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   LoginAuthReturn: ResolverTypeWrapper<LoginAuthReturn>;
   Message: ResolverTypeWrapper<Message>;
+  MessageChat: ResolverTypeWrapper<MessageChat>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   MessageInput: MessageInput;
   Mutation: ResolverTypeWrapper<{}>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Post: ResolverTypeWrapper<Post>;
   PostCreateInput: PostCreateInput;
   PostOrderByUpdatedAtInput: PostOrderByUpdatedAtInput;
@@ -303,9 +320,10 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime'];
   LoginAuthReturn: LoginAuthReturn;
   Message: Message;
+  MessageChat: MessageChat;
+  Boolean: Scalars['Boolean'];
   MessageInput: MessageInput;
   Mutation: {};
-  Boolean: Scalars['Boolean'];
   Post: Post;
   PostCreateInput: PostCreateInput;
   PostOrderByUpdatedAtInput: PostOrderByUpdatedAtInput;
@@ -348,6 +366,16 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MessageChatResolvers<ContextType = any, ParentType extends ResolversParentTypes['MessageChat'] = ResolversParentTypes['MessageChat']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  from?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  to?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  mine?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createDraft?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationCreateDraftArgs, 'authorEmail' | 'data'>>;
   deletePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'id'>>;
@@ -379,6 +407,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   postById?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostByIdArgs, never>>;
   message?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   messageByUser?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryMessageByUserArgs, 'data'>>;
+  getChat?: Resolver<Array<ResolversTypes['MessageChat']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -398,6 +427,7 @@ export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   LoginAuthReturn?: LoginAuthReturnResolvers<ContextType>;
   Message?: MessageResolvers<ContextType>;
+  MessageChat?: MessageChatResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
