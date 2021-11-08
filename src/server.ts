@@ -17,7 +17,7 @@ const server = new ApolloServer({
   uploads: false,
 });
 
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "../images")));
 app.use(graphqlUploadExpress());
 
 server.applyMiddleware({ app, path: "/graphql" });

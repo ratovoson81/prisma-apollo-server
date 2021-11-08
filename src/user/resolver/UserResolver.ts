@@ -1,3 +1,4 @@
+import { IdUser } from "./../../types";
 import { DateTimeResolver } from "graphql-scalars";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
@@ -11,6 +12,32 @@ export const UserResolvers = {
   Query: {
     allUsers: (_parent: any, _args: any, context: Context) => {
       return context.prisma.user.findMany();
+    },
+    allUsersMessageByMe: async (
+      _parent: any,
+      args: { data: IdUser },
+      context: Context
+    ) => {
+      const allUsers = await context.prisma.user.findMany({});
+      allUsers.forEach(async (elem: any) => {
+        const data = context.prisma.message.findMany({
+          where: {
+            OR: [
+              {
+                fromUserId: args.data.id,
+                toUserId: elem.id,
+              },
+              { fromUserId: elem.id, toUserId: args.data.id },
+            ],
+          },
+          orderBy: {
+            date: "desc",
+          },
+        });
+        elem.lastMessage = data;
+      });
+
+      return allUsers;
     },
     feed: async (
       _parent: any,

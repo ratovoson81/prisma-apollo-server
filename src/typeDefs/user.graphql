@@ -3,7 +3,8 @@ type User {
   id: Int!
   name: String!
   posts: [Post!]!
-  imageUrl: String!
+  imageUrl: String
+  lastMessage: [Message]
 }
 input UserCreateInput {
   email: String!
@@ -15,6 +16,9 @@ input UserCreateInput {
 input UserUniqueInput {
   email: String
   id: Int
+}
+input IdUser {
+  id: Int!
 }
 
 input UserLoginInput {

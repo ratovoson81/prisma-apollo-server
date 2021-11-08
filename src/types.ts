@@ -37,6 +37,17 @@ export enum CacheControlScope {
 }
 
 
+export type File = {
+  __typename?: 'File';
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
+  encoding: Scalars['String'];
+};
+
+export type IdUser = {
+  id: Scalars['Int'];
+};
+
 export type LoginAuthReturn = {
   __typename?: 'LoginAuthReturn';
   theUser: User;
@@ -148,6 +159,7 @@ export type Query = {
   message: Array<Message>;
   messageByUser: Array<Message>;
   getChat: Array<Message>;
+  allUsersMessageByMe: Array<User>;
 };
 
 
@@ -178,6 +190,11 @@ export type QueryGetChatArgs = {
   data: ArgsMessageChat;
 };
 
+
+export type QueryAllUsersMessageByMeArgs = {
+  data: ArgsMessageChat;
+};
+
 export enum SortOrder {
   Asc = 'asc',
   Desc = 'desc'
@@ -190,7 +207,8 @@ export type User = {
   id: Scalars['Int'];
   name: Scalars['String'];
   posts: Array<Post>;
-  imageUrl: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  lastMessage?: Maybe<Array<Maybe<Message>>>;
 };
 
 export type UserCreateInput = {
@@ -295,6 +313,8 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  File: ResolverTypeWrapper<File>;
+  IdUser: IdUser;
   LoginAuthReturn: ResolverTypeWrapper<LoginAuthReturn>;
   Message: ResolverTypeWrapper<Message>;
   MessageChat: ResolverTypeWrapper<MessageChat>;
@@ -320,6 +340,8 @@ export type ResolversParentTypes = {
   AuthPayLoad: AuthPayLoad;
   String: Scalars['String'];
   DateTime: Scalars['DateTime'];
+  File: File;
+  IdUser: IdUser;
   LoginAuthReturn: LoginAuthReturn;
   Message: Message;
   MessageChat: MessageChat;
@@ -352,6 +374,13 @@ export type AuthPayLoadResolvers<ContextType = any, ParentType extends Resolvers
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
+
+export type FileResolvers<ContextType = any, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = {
+  filename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  encoding?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type LoginAuthReturnResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginAuthReturn'] = ResolversParentTypes['LoginAuthReturn']> = {
   theUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -410,6 +439,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   message?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   messageByUser?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryMessageByUserArgs, 'data'>>;
   getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
+  allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -421,13 +451,15 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
-  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lastMessage?: Resolver<Maybe<Array<Maybe<ResolversTypes['Message']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   AuthPayLoad?: AuthPayLoadResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  File?: FileResolvers<ContextType>;
   LoginAuthReturn?: LoginAuthReturnResolvers<ContextType>;
   Message?: MessageResolvers<ContextType>;
   MessageChat?: MessageChatResolvers<ContextType>;

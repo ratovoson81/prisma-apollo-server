@@ -24,35 +24,20 @@ export const MessageResolvers = {
       args: { data: ArgsMessageChat },
       context: Context
     ) => {
-      const myMessage = await context.prisma.message.findMany({
+      return await context.prisma.message.findMany({
         where: {
-          fromUserId: args.data.idFrom,
-          toUserId: args.data.idTo,
+          OR: [
+            {
+              fromUserId: args.data.idFrom,
+              toUserId: args.data.idTo,
+            },
+            { fromUserId: args.data.idTo, toUserId: args.data.idFrom },
+          ],
         },
-        /*include: {
-          from: true,
-          to: true,
-        },*/
-      }); /*as unknown as MessageChat[];
-      myMessage.forEach(function (element) {
-        element.mine = true;
-      });*/
-
-      const hisMessage = await context.prisma.message.findMany({
-        where: {
-          fromUserId: args.data.idTo,
-          toUserId: args.data.idFrom,
+        orderBy: {
+          date: "asc",
         },
-        /*include: {
-          from: true,
-          to: true,
-        },*/
-      }); /*as unknown as MessageChat[];
-      hisMessage.forEach(function (element) {
-        element.mine = false;
-      });*/
-
-      return [...myMessage, ...hisMessage];
+      });
     },
   },
   Mutation: {
