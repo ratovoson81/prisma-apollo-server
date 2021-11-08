@@ -3,12 +3,14 @@ type User {
   id: Int!
   name: String!
   posts: [Post!]!
+  imageUrl: String!
 }
 input UserCreateInput {
   email: String!
   name: String!
   password: String!
   posts: [PostCreateInput!]
+  image: Upload!
 }
 input UserUniqueInput {
   email: String
@@ -30,3 +32,9 @@ type AuthPayLoad {
   email: String
   name: String
 }
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
+scalar Upload

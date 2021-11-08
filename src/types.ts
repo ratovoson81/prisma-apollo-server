@@ -147,7 +147,7 @@ export type Query = {
   postById?: Maybe<Post>;
   message: Array<Message>;
   messageByUser: Array<Message>;
-  getChat: Array<MessageChat>;
+  getChat: Array<Message>;
 };
 
 
@@ -190,6 +190,7 @@ export type User = {
   id: Scalars['Int'];
   name: Scalars['String'];
   posts: Array<Post>;
+  imageUrl: Scalars['String'];
 };
 
 export type UserCreateInput = {
@@ -197,6 +198,7 @@ export type UserCreateInput = {
   name: Scalars['String'];
   password: Scalars['String'];
   posts?: Maybe<Array<PostCreateInput>>;
+  image: Scalars['Upload'];
 };
 
 export type UserLoginInput = {
@@ -407,7 +409,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   postById?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostByIdArgs, never>>;
   message?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   messageByUser?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryMessageByUserArgs, 'data'>>;
-  getChat?: Resolver<Array<ResolversTypes['MessageChat']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
+  getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -419,6 +421,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
+  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

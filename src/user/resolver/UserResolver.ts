@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { getUserId } from "../../decodedToken";
 import bcrypt from "bcrypt";
 import { UserCreateInput } from "../../types";
+import { createWriteStream } from "fs";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 
 export const UserResolvers = {
   Query: {
@@ -71,12 +73,29 @@ export const UserResolvers = {
       const postData = args.data.posts?.map((post) => {
         return { title: post.title, content: post.content || undefined };
       });
+      let { createReadStream, filename }: FileUpload = await args.data.image;
 
+      const userExist = context.prisma.user.findUnique({
+        where: {
+          email: args.data.email,
+        },
+      });
+      if (await userExist)
+        throw new Error("L'adresse email appartient déjà à un compte existant");
+
+      filename = filename.split(".").join("-" + Date.now() + ".");
+      await new Promise(async (resolve, reject) =>
+        createReadStream()
+          .pipe(createWriteStream(`./images/${filename}`))
+          .on("finish", () => resolve(true))
+          .on("error", () => reject(false))
+      );
       const newUser = await context.prisma.user.create({
         data: {
           name: args.data.name,
           email: args.data.email,
           password: bcrypt.hashSync(args.data.password, 3),
+          imageUrl: filename,
           posts: {
             create: postData,
           },
@@ -141,6 +160,7 @@ export const UserResolvers = {
       });
     },
   },
+  Upload: GraphQLUpload,
   DateTime: DateTimeResolver,
   User: {
     posts: (parent: { id: any }, _args: any, context: Context) => {
