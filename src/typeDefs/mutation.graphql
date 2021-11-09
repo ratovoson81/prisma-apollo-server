@@ -8,4 +8,5 @@ type Mutation {
   logout: Boolean!
   isLogged: User
   sendMessage(data: MessageInput!): Message!
+  createGroupe(data: ArgsGroupe!): Groupe!
 }

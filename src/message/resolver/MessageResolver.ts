@@ -14,12 +14,12 @@ export const MessageResolvers = {
     ) => {
       return context.prisma.message.findMany({
         where: {
-          fromUserId: args.data.idFrom,
-          toUserId: args.data.idTo,
+          /*fromUserId: args.data.idFrom,
+          toUserId: args.data.idTo,*/
         },
       });
     },
-    getChat: async (
+    /*getChat: async (
       _parent: any,
       args: { data: ArgsMessageChat },
       context: Context
@@ -38,10 +38,10 @@ export const MessageResolvers = {
           date: "asc",
         },
       });
-    },
+    },*/
   },
   Mutation: {
-    sendMessage: async (
+    /*sendMessage: async (
       _paren: any,
       args: { data: MessageInput },
       context: Context
@@ -63,22 +63,6 @@ export const MessageResolvers = {
         },
       });
       return newMessage;
-    },
-  },
-  Message: {
-    from: (parent: { id: any }, _args: any, context: Context) => {
-      return context.prisma.message
-        .findUnique({
-          where: { id: parent?.id },
-        })
-        .from();
-    },
-    to: (parent: { id: any }, _args: any, context: Context) => {
-      return context.prisma.message
-        .findUnique({
-          where: { id: parent?.id },
-        })
-        .to();
-    },
+    },*/
   },
 };

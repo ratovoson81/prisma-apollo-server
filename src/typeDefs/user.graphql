@@ -1,11 +1,11 @@
 type User {
-  email: String!
   id: Int!
+  email: String!
   name: String!
   posts: [Post!]!
   imageUrl: String
-  lastMessage: [Message!]!
 }
+
 input UserCreateInput {
   email: String!
   name: String!

@@ -11,16 +11,16 @@ generator client {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  name       String
-  password   String
-  imageUrl   String?
-  IsOnline   Boolean   @default(false)
-  posts      Post[]
-  //messages Message[]
-  fromUserId Message[] @relation("from")
-  toUserId   Message[] @relation("to")
+  id       Int            @id @default(autoincrement())
+  email    String         @unique
+  name     String
+  password String
+  imageUrl String?
+  IsOnline Boolean        @default(false)
+  posts    Post[]
+  groupes  GroupeOnUser[]
+  messages Message[]
+
 }
 
 model Post {
@@ -36,11 +36,27 @@ model Post {
 }
 
 model Message {
-  id         Int      @id @default(autoincrement())
-  content    String
-  from       User     @relation("from", fields: [fromUserId], references: [id])
-  fromUserId Int
-  to         User     @relation("to", fields: [toUserId], references: [id])
-  toUserId   Int
-  date       DateTime @default(now())
+  id       Int      @id @default(autoincrement())
+  content  String
+  author   User     @relation(fields: [authorId], references: [id])
+  authorId Int
+  date     DateTime @default(now())
+  groupe   Groupe   @relation(fields: [groupeId], references: [id])
+  groupeId Int
+}
+
+model Groupe {
+  id       Int            @id @default(autoincrement())
+  name     String?
+  messages Message[]
+  users    GroupeOnUser[]
+}
+
+model GroupeOnUser {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int
+  groupe   Groupe @relation(fields: [groupeId], references: [id])
+  groupeId Int
+
+  @@id([userId, groupeId])
 }

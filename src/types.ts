@@ -19,6 +19,11 @@ export type Scalars = {
 };
 
 
+export type ArgsGroupe = {
+  name?: Maybe<Scalars['String']>;
+  users: Array<Scalars['Int']>;
+};
+
 export type ArgsMessageChat = {
   idFrom: Scalars['Int'];
   idTo: Scalars['Int'];
@@ -58,8 +63,7 @@ export type Message = {
   __typename?: 'Message';
   id: Scalars['Int'];
   content: Scalars['String'];
-  from: User;
-  to: User;
+  author: User;
   date: Scalars['DateTime'];
 };
 
@@ -203,12 +207,11 @@ export enum SortOrder {
 
 export type User = {
   __typename?: 'User';
-  email: Scalars['String'];
   id: Scalars['Int'];
+  email: Scalars['String'];
   name: Scalars['String'];
   posts: Array<Post>;
   imageUrl?: Maybe<Scalars['String']>;
-  lastMessage: Array<Message>;
 };
 
 export type UserCreateInput = {
@@ -227,6 +230,13 @@ export type UserLoginInput = {
 export type UserUniqueInput = {
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+};
+
+export type Groupe = {
+  __typename?: 'groupe';
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  users: Array<User>;
 };
 
 
@@ -307,10 +317,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  ArgsMessageChat: ArgsMessageChat;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
+  ArgsGroupe: ArgsGroupe;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  ArgsMessageChat: ArgsMessageChat;
+  AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   File: ResolverTypeWrapper<File>;
@@ -331,14 +342,16 @@ export type ResolversTypes = {
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
+  groupe: ResolverTypeWrapper<Groupe>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  ArgsMessageChat: ArgsMessageChat;
-  Int: Scalars['Int'];
-  AuthPayLoad: AuthPayLoad;
+  ArgsGroupe: ArgsGroupe;
   String: Scalars['String'];
+  Int: Scalars['Int'];
+  ArgsMessageChat: ArgsMessageChat;
+  AuthPayLoad: AuthPayLoad;
   DateTime: Scalars['DateTime'];
   File: File;
   IdUser: IdUser;
@@ -357,6 +370,7 @@ export type ResolversParentTypes = {
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
+  groupe: Groupe;
 };
 
 export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
@@ -391,8 +405,7 @@ export type LoginAuthReturnResolvers<ContextType = any, ParentType extends Resol
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  from?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  to?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -447,12 +460,18 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lastMessage?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['groupe'] = ResolversParentTypes['groupe']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -468,6 +487,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
+  groupe?: GroupeResolvers<ContextType>;
 };
 
 

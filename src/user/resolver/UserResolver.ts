@@ -22,13 +22,13 @@ export const UserResolvers = {
       allUsers.forEach(async (elem: any) => {
         const data = context.prisma.message.findMany({
           where: {
-            OR: [
+            /* OR: [
               {
                 fromUserId: args.data.id,
                 toUserId: elem.id,
               },
               { fromUserId: elem.id, toUserId: args.data.id },
-            ],
+            ],*/
           },
           orderBy: {
             date: "desc",

@@ -1,0 +1,10 @@
+type Groupe {
+  id: Int!
+  name: String
+  users: [User!]!
+}
+
+input ArgsGroupe {
+  name: String
+  users: [Int!]!
+}

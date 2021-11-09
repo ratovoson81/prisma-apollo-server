@@ -1,8 +1,7 @@
 type Message {
   id: Int!
   content: String!
-  from: User!
-  to: User!
+  author: User!
   date: DateTime!
 }
 input MessageInput {
