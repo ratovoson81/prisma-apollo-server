@@ -7,7 +7,7 @@ type Message {
 input MessageInput {
   content: String!
   idFrom: Int!
-  idTo: Int!
+  idGroupe: Int!
   date: DateTime!
 }
 input ArgsMessageChat {

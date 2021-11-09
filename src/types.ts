@@ -92,7 +92,7 @@ export type MessageChat = {
 export type MessageInput = {
   content: Scalars['String'];
   idFrom: Scalars['Int'];
-  idTo: Scalars['Int'];
+  idGroupe: Scalars['Int'];
   date: Scalars['DateTime'];
 };
 
@@ -221,7 +221,7 @@ export type QueryAllUsersMessageByMeArgs = {
 
 
 export type QueryAllGroupeByUserArgs = {
-  data?: Maybe<ArgsGroupe>;
+  data: ArgsGetGroupePerUser;
 };
 
 export type ReturnGroupe = {
@@ -492,7 +492,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
   allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
   allGroupe?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType>;
-  allGroupeByUser?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryAllGroupeByUserArgs, never>>;
+  allGroupeByUser?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryAllGroupeByUserArgs, 'data'>>;
 };
 
 export type ReturnGroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReturnGroupe'] = ResolversParentTypes['ReturnGroupe']> = {

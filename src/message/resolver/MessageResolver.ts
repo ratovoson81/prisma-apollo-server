@@ -41,7 +41,7 @@ export const MessageResolvers = {
     },*/
   },
   Mutation: {
-    /*sendMessage: async (
+    sendMessage: async (
       _paren: any,
       args: { data: MessageInput },
       context: Context
@@ -49,20 +49,30 @@ export const MessageResolvers = {
       const newMessage = await context.prisma.message.create({
         data: {
           content: args.data.content,
-          from: {
+          author: {
             connect: {
               id: args.data.idFrom,
             },
           },
-          to: {
+          groupe: {
             connect: {
-              id: args.data.idTo,
+              id: args.data.idGroupe,
             },
           },
           date: args.data.date,
         },
       });
+      console.log(newMessage);
       return newMessage;
-    },*/
+    },
+  },
+  Message: {
+    author: (parent: { id: any }, _args: any, context: Context) => {
+      return context.prisma.message
+        .findUnique({
+          where: { id: parent?.id },
+        })
+        .author();
+    },
   },
 };

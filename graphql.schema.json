@@ -676,7 +676,7 @@
             "deprecationReason": null
           },
           {
-            "name": "idTo",
+            "name": "idGroupe",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -1547,9 +1547,13 @@
                 "name": "data",
                 "description": null,
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ArgsGroupe",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ArgsGetGroupePerUser",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
