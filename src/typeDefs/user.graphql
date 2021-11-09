@@ -4,7 +4,7 @@ type User {
   name: String!
   posts: [Post!]!
   imageUrl: String
-  lastMessage: [Message]
+  lastMessage: [Message!]!
 }
 input UserCreateInput {
   email: String!

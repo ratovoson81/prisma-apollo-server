@@ -192,7 +192,7 @@ export type QueryGetChatArgs = {
 
 
 export type QueryAllUsersMessageByMeArgs = {
-  data: ArgsMessageChat;
+  data: IdUser;
 };
 
 export enum SortOrder {
@@ -208,7 +208,7 @@ export type User = {
   name: Scalars['String'];
   posts: Array<Post>;
   imageUrl?: Maybe<Scalars['String']>;
-  lastMessage?: Maybe<Array<Maybe<Message>>>;
+  lastMessage: Array<Message>;
 };
 
 export type UserCreateInput = {
@@ -452,7 +452,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lastMessage?: Resolver<Maybe<Array<Maybe<ResolversTypes['Message']>>>, ParentType, ContextType>;
+  lastMessage?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
