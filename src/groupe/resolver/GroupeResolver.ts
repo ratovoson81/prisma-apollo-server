@@ -1,5 +1,5 @@
 import { Context } from "../../context";
-import { ArgsGroupe } from "./../../types";
+import { ArgsGetGroupePerUser, ArgsGroupe } from "./../../types";
 
 export const GroupeResolvers = {
   Query: {
@@ -18,6 +18,37 @@ export const GroupeResolvers = {
           },
         },
       });
+    },
+    allGroupeByUser: async (
+      _parent: any,
+      args: { data: ArgsGetGroupePerUser },
+      context: Context
+    ) => {
+      const result = await context.prisma.groupe.findMany({
+        where: {
+          users: {
+            some: {
+              user: {
+                id: args.data.id,
+              },
+            },
+          },
+        },
+        include: {
+          users: {
+            include: {
+              user: true,
+            },
+          },
+          messages: {
+            include: {
+              author: true,
+            },
+          },
+        },
+      });
+      console.log(result);
+      return result;
     },
   },
   Mutation: {

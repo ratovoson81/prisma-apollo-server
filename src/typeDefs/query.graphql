@@ -13,6 +13,7 @@ type Query {
   getChat(data: ArgsMessageChat!): [Message!]!
   allUsersMessageByMe(data: IdUser!): [User!]!
   allGroupe: [Groupe!]!
+  allGroupeByUser(data: ArgsGetGroupePerUser!): [Groupe!]!
 }
 enum SortOrder {
   asc

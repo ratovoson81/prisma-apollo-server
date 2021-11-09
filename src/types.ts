@@ -19,6 +19,10 @@ export type Scalars = {
 };
 
 
+export type ArgsGetGroupePerUser = {
+  id: Scalars['Int'];
+};
+
 export type ArgsGroupe = {
   name?: Maybe<Scalars['String']>;
   users: Array<Scalars['Int']>;
@@ -53,7 +57,7 @@ export type Groupe = {
   __typename?: 'Groupe';
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
-  users: Array<User>;
+  users: Array<ReturnGroupe>;
   messages: Array<Message>;
 };
 
@@ -179,6 +183,7 @@ export type Query = {
   getChat: Array<Message>;
   allUsersMessageByMe: Array<User>;
   allGroupe: Array<Groupe>;
+  allGroupeByUser: Array<Groupe>;
 };
 
 
@@ -212,6 +217,18 @@ export type QueryGetChatArgs = {
 
 export type QueryAllUsersMessageByMeArgs = {
   data: IdUser;
+};
+
+
+export type QueryAllGroupeByUserArgs = {
+  data?: Maybe<ArgsGroupe>;
+};
+
+export type ReturnGroupe = {
+  __typename?: 'ReturnGroupe';
+  userId?: Maybe<Scalars['Int']>;
+  groupeId?: Maybe<Scalars['Int']>;
+  user?: Maybe<User>;
 };
 
 export enum SortOrder {
@@ -325,9 +342,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   ArgsGroupe: ArgsGroupe;
   String: ResolverTypeWrapper<Scalars['String']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   ArgsMessageChat: ArgsMessageChat;
   AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
   CacheControlScope: CacheControlScope;
@@ -345,6 +363,7 @@ export type ResolversTypes = {
   PostCreateInput: PostCreateInput;
   PostOrderByUpdatedAtInput: PostOrderByUpdatedAtInput;
   Query: ResolverTypeWrapper<{}>;
+  ReturnGroupe: ResolverTypeWrapper<ReturnGroupe>;
   SortOrder: SortOrder;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   User: ResolverTypeWrapper<User>;
@@ -355,9 +374,10 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
+  Int: Scalars['Int'];
   ArgsGroupe: ArgsGroupe;
   String: Scalars['String'];
-  Int: Scalars['Int'];
   ArgsMessageChat: ArgsMessageChat;
   AuthPayLoad: AuthPayLoad;
   DateTime: Scalars['DateTime'];
@@ -374,6 +394,7 @@ export type ResolversParentTypes = {
   PostCreateInput: PostCreateInput;
   PostOrderByUpdatedAtInput: PostOrderByUpdatedAtInput;
   Query: {};
+  ReturnGroupe: ReturnGroupe;
   Upload: Scalars['Upload'];
   User: User;
   UserCreateInput: UserCreateInput;
@@ -407,7 +428,7 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
 export type GroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Groupe'] = ResolversParentTypes['Groupe']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['ReturnGroupe']>, ParentType, ContextType>;
   messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -471,6 +492,14 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
   allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
   allGroupe?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType>;
+  allGroupeByUser?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryAllGroupeByUserArgs, never>>;
+};
+
+export type ReturnGroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReturnGroupe'] = ResolversParentTypes['ReturnGroupe']> = {
+  userId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  groupeId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -497,6 +526,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ReturnGroupe?: ReturnGroupeResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
 };

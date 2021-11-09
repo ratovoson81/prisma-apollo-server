@@ -5,13 +5,16 @@ type Groupe {
   messages: [Message!]!
 }
 
+type ReturnGroupe {
+  userId: Int
+  groupeId: Int
+  user: User
+}
 input ArgsGroupe {
   name: String
   users: [Int!]!
 }
 
-type ReturnGroupe {
-  userId: Int
-  groupeId: Int
-  user: User
+input ArgsGetGroupePerUser {
+  id: Int!
 }
