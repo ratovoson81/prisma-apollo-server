@@ -3,24 +3,21 @@ import { ArgsGroupe } from "./../../types";
 
 export const GroupeResolvers = {
   Query: {
-    allGroupe: async (
-      _parent: any,
-      args: { data: ArgsGroupe },
-      context: Context
-    ) => {
-      const result = await context.prisma.groupe.findMany({
+    allGroupe: async (_parent: any, args: any, context: Context) => {
+      return await context.prisma.groupe.findMany({
         include: {
           users: {
             include: {
               user: true,
             },
           },
+          messages: {
+            include: {
+              author: true,
+            },
+          },
         },
       });
-      console.log(result[0]);
-      console.log(result.length);
-
-      return result;
     },
   },
   Mutation: {
@@ -48,15 +45,6 @@ export const GroupeResolvers = {
       });
       console.log(newGroupe);
       return newGroupe;
-    },
-  },
-  Groupe: {
-    users: (parent: { id: any }, _args: any, context: Context) => {
-      return context.prisma.groupe
-        .findUnique({
-          where: { id: parent?.id },
-        })
-        .users();
     },
   },
 };

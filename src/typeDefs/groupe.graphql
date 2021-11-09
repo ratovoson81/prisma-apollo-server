@@ -1,10 +1,17 @@
 type Groupe {
   id: Int!
   name: String
-  users: [User!]!
+  users: [ReturnGroupe!]!
+  messages: [Message!]!
 }
 
 input ArgsGroupe {
   name: String
   users: [Int!]!
+}
+
+type ReturnGroupe {
+  userId: Int
+  groupeId: Int
+  user: User
 }

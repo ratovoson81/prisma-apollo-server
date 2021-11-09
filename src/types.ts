@@ -49,6 +49,14 @@ export type File = {
   encoding: Scalars['String'];
 };
 
+export type Groupe = {
+  __typename?: 'Groupe';
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  users: Array<User>;
+  messages: Array<Message>;
+};
+
 export type IdUser = {
   id: Scalars['Int'];
 };
@@ -95,6 +103,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   isLogged?: Maybe<User>;
   sendMessage: Message;
+  createGroupe: Groupe;
 };
 
 
@@ -133,6 +142,11 @@ export type MutationSendMessageArgs = {
   data: MessageInput;
 };
 
+
+export type MutationCreateGroupeArgs = {
+  data: ArgsGroupe;
+};
+
 export type Post = {
   __typename?: 'Post';
   author?: Maybe<User>;
@@ -164,6 +178,7 @@ export type Query = {
   messageByUser: Array<Message>;
   getChat: Array<Message>;
   allUsersMessageByMe: Array<User>;
+  allGroupe: Array<Groupe>;
 };
 
 
@@ -230,13 +245,6 @@ export type UserLoginInput = {
 export type UserUniqueInput = {
   email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
-};
-
-export type Groupe = {
-  __typename?: 'groupe';
-  id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
-  users: Array<User>;
 };
 
 
@@ -325,6 +333,7 @@ export type ResolversTypes = {
   CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   File: ResolverTypeWrapper<File>;
+  Groupe: ResolverTypeWrapper<Groupe>;
   IdUser: IdUser;
   LoginAuthReturn: ResolverTypeWrapper<LoginAuthReturn>;
   Message: ResolverTypeWrapper<Message>;
@@ -342,7 +351,6 @@ export type ResolversTypes = {
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
-  groupe: ResolverTypeWrapper<Groupe>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -354,6 +362,7 @@ export type ResolversParentTypes = {
   AuthPayLoad: AuthPayLoad;
   DateTime: Scalars['DateTime'];
   File: File;
+  Groupe: Groupe;
   IdUser: IdUser;
   LoginAuthReturn: LoginAuthReturn;
   Message: Message;
@@ -370,7 +379,6 @@ export type ResolversParentTypes = {
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
-  groupe: Groupe;
 };
 
 export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
@@ -393,6 +401,14 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
   filename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   encoding?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Groupe'] = ResolversParentTypes['Groupe']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -430,6 +446,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isLogged?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   sendMessage?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'data'>>;
+  createGroupe?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<MutationCreateGroupeArgs, 'data'>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -453,6 +470,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   messageByUser?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryMessageByUserArgs, 'data'>>;
   getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
   allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
+  allGroupe?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType>;
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -468,17 +486,11 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['groupe'] = ResolversParentTypes['groupe']> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type Resolvers<ContextType = any> = {
   AuthPayLoad?: AuthPayLoadResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   File?: FileResolvers<ContextType>;
+  Groupe?: GroupeResolvers<ContextType>;
   LoginAuthReturn?: LoginAuthReturnResolvers<ContextType>;
   Message?: MessageResolvers<ContextType>;
   MessageChat?: MessageChatResolvers<ContextType>;
@@ -487,7 +499,6 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
-  groupe?: GroupeResolvers<ContextType>;
 };
 
 
