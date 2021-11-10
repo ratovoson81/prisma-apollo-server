@@ -19,20 +19,26 @@ export const GroupeResolvers = {
         },
       });
     },
-    allGroupeByUser: async (
+    getGroupeByMultipleUsers: async (
       _parent: any,
       args: { data: ArgsGetGroupePerUser },
       context: Context
     ) => {
-      const result = await context.prisma.groupe.findMany({
-        where: {
+      const condition: any = [];
+      args.data?.ids.forEach((id) =>
+        condition.push({
           users: {
             some: {
               user: {
-                id: args.data.id,
+                id: id,
               },
             },
           },
+        })
+      );
+      const result = await context.prisma.groupe.findMany({
+        where: {
+          AND: condition,
         },
         include: {
           users: {
@@ -44,11 +50,28 @@ export const GroupeResolvers = {
             include: {
               author: true,
             },
+            orderBy: {
+              date: "desc",
+            },
           },
         },
       });
       console.log(result);
       return result;
+    },
+    //si existe setSelectGroupe sinon affiche autre page pour accepter chat
+    getOneGroupeById: async (
+      _parent: any,
+      args: { data: number },
+      context: Context
+    ) => {
+      const a = await context.prisma.groupe.findUnique({
+        where: {
+          id: args.data,
+        },
+      });
+      console.log(a);
+      return a;
     },
   },
   Mutation: {

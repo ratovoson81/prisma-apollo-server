@@ -20,7 +20,7 @@ export type Scalars = {
 
 
 export type ArgsGetGroupePerUser = {
-  id: Scalars['Int'];
+  ids: Array<Scalars['Int']>;
 };
 
 export type ArgsGroupe = {
@@ -184,6 +184,7 @@ export type Query = {
   allUsersMessageByMe: Array<User>;
   allGroupe: Array<Groupe>;
   allGroupeByUser: Array<Groupe>;
+  getOneGroupeByIds: Groupe;
 };
 
 
@@ -222,6 +223,11 @@ export type QueryAllUsersMessageByMeArgs = {
 
 export type QueryAllGroupeByUserArgs = {
   data: ArgsGetGroupePerUser;
+};
+
+
+export type QueryGetOneGroupeByIdsArgs = {
+  data: Scalars['Int'];
 };
 
 export type ReturnGroupe = {
@@ -493,6 +499,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
   allGroupe?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType>;
   allGroupeByUser?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryAllGroupeByUserArgs, 'data'>>;
+  getOneGroupeByIds?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<QueryGetOneGroupeByIdsArgs, 'data'>>;
 };
 
 export type ReturnGroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReturnGroupe'] = ResolversParentTypes['ReturnGroupe']> = {

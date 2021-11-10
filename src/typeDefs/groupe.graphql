@@ -16,5 +16,5 @@ input ArgsGroupe {
 }
 
 input ArgsGetGroupePerUser {
-  id: Int!
+  ids: [Int!]!
 }
