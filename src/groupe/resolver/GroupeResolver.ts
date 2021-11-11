@@ -96,30 +96,23 @@ export const GroupeResolvers = {
               },
             })),
           },
+          messages: {
+            create: {
+              content: "Salut !",
+              author: {
+                connect: {
+                  id: args.data.users[0],
+                },
+              },
+              date: new Date(),
+            },
+          },
         },
         include: {
           users: true,
           messages: true,
         },
       });
-
-      await context.prisma.message.create({
-        data: {
-          content: "Salut !",
-          author: {
-            connect: {
-              id: args.data.users[0],
-            },
-          },
-          groupe: {
-            connect: {
-              id: newGroupe.id,
-            },
-          },
-          date: new Date(),
-        },
-      });
-
       console.log(newGroupe);
       return newGroupe;
     },
