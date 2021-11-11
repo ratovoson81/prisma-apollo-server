@@ -1,5 +1,5 @@
 import { Context } from "../../context";
-import { ArgsGetGroupePerUser, ArgsGroupe } from "./../../types";
+import { ArgsGetGroupePerUser, ArgsGroupe, Groupe } from "./../../types";
 
 export const GroupeResolvers = {
   Query: {
@@ -56,10 +56,14 @@ export const GroupeResolvers = {
           },
         },
       });
+      result.sort(
+        (a: any, b: any) =>
+          new Date(b.messages[0]?.date).getTime() -
+          new Date(a.messages[0]?.date).getTime()
+      );
       console.log(result);
       return result;
     },
-    //si existe setSelectGroupe sinon affiche autre page pour accepter chat
     getOneGroupeById: async (
       _parent: any,
       args: { data: number },
@@ -95,8 +99,27 @@ export const GroupeResolvers = {
         },
         include: {
           users: true,
+          messages: true,
         },
       });
+
+      await context.prisma.message.create({
+        data: {
+          content: "Salut !",
+          author: {
+            connect: {
+              id: args.data.users[0],
+            },
+          },
+          groupe: {
+            connect: {
+              id: newGroupe.id,
+            },
+          },
+          date: new Date(),
+        },
+      });
+
       console.log(newGroupe);
       return newGroupe;
     },
