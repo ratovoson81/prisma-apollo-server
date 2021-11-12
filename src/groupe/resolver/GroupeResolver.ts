@@ -61,7 +61,6 @@ export const GroupeResolvers = {
           new Date(b.messages[0]?.date).getTime() -
           new Date(a.messages[0]?.date).getTime()
       );
-      console.log(result);
       return result;
     },
     getOneGroupeById: async (
@@ -113,7 +112,6 @@ export const GroupeResolvers = {
           messages: true,
         },
       });
-      console.log(newGroupe);
       return newGroupe;
     },
   },

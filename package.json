@@ -33,9 +33,11 @@
     "@types/graphql-upload": "^8.0.7",
     "@types/lodash": "^4.14.168",
     "apollo-server": "2.23.0",
+    "apollo-server-core": "^3.5.0",
     "apollo-server-express": "^2.24.0",
     "bcrypt": "^5.0.1",
     "class-validator": "0.13.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql": "15.5.0",
     "graphql-scalars": "1.9.3",
@@ -45,6 +47,7 @@
     "lodash": "^4.17.21",
     "nodemon": "^2.0.13",
     "reflect-metadata": "0.1.13",
+    "socket.io": "^4.3.2",
     "type-graphql": "1.1.1"
   },
   "prisma": {

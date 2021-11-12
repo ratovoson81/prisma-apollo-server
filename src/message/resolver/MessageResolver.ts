@@ -62,7 +62,6 @@ export const MessageResolvers = {
           date: args.data.date,
         },
       });
-      console.log(newMessage);
       return newMessage;
     },
   },
