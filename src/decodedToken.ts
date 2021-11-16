@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { context } from "./context";
 const APP_SECRET = "supersecret";
 
 export function getTokenPayload(token: string) {
@@ -40,4 +41,42 @@ export function destroyToken(req: any) {
     }
   }
   throw new Error("Not authenticated");
+}
+
+export async function setConnected(token: string) {
+  let user = {};
+  if (token !== "nothing") {
+    const decryptedToken = getTokenPayload(token) as any;
+    user = await context.prisma.user.update({
+      where: {
+        id: decryptedToken.userId,
+      },
+      data: {
+        IsOnline: true,
+      },
+    });
+  } else {
+    console.log("connected! non authentified");
+  }
+  return user;
+}
+
+export async function setDisconnect(token: string) {
+  let user = {};
+  if (token !== "nothing") {
+    const decryptedToken = getTokenPayload(token) as any;
+    user = await context.prisma.user.update({
+      where: {
+        id: decryptedToken.userId,
+      },
+      data: {
+        IsOnline: false,
+        connectedAt: new Date(),
+      },
+    });
+  } else {
+    console.log("connected! non authentified");
+  }
+  console.log("offline ok");
+  return user;
 }

@@ -10,8 +10,7 @@ import http from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { makeExecutableSchema } from "graphql-tools";
 import { execute, subscribe } from "graphql";
-import { getTokenPayload } from "./decodedToken";
-import { UserResolvers } from "./user/resolver/UserResolver";
+import { setConnected, setDisconnect } from "./decodedToken";
 var cors = require("cors");
 
 const app = express();
@@ -92,21 +91,7 @@ const io = new Server(httpServer, {
 
 io.on("connection", async (socket) => {
   let token = socket.handshake.query.token as any;
-  let user = {};
-  if (token) {
-    const decryptedToken = getTokenPayload(token) as any;
-    user = await context.prisma.user.update({
-      where: {
-        id: decryptedToken.userId,
-      },
-      data: {
-        IsOnline: true,
-      },
-    });
-  } else {
-    console.log("connected! non authentified");
-  }
-  io.emit("arrivalUser", user);
+  io.emit("arrivalUser", await setConnected(token));
 
   socket.on("add", (data) => {
     console.log("add", data);
@@ -117,9 +102,8 @@ io.on("connection", async (socket) => {
     token = data;
   });
 
-  socket.on("disconnect", () => {
-    console.log("disconnect", token);
+  socket.on("disconnect", async () => {
     // set offline via token
-    io.emit("check", token);
+    io.emit("someone disconnect", await setDisconnect(token));
   });
 });
