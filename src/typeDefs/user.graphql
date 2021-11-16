@@ -4,6 +4,8 @@ type User {
   name: String!
   posts: [Post!]!
   imageUrl: String
+  IsOnline: Boolean
+  connectedAt: DateTime
 }
 
 input UserCreateInput {

@@ -11,15 +11,16 @@ generator client {
 }
 
 model User {
-  id       Int            @id @default(autoincrement())
-  email    String         @unique
-  name     String
-  password String
-  imageUrl String?
-  IsOnline Boolean        @default(false)
-  posts    Post[]
-  groupes  GroupeOnUser[]
-  messages Message[]
+  id          Int            @id @default(autoincrement())
+  email       String         @unique
+  name        String
+  password    String
+  imageUrl    String?
+  IsOnline    Boolean        @default(false)
+  connectedAt DateTime       @default(now())
+  posts       Post[]
+  groupes     GroupeOnUser[]
+  messages    Message[]
 
 }
 

@@ -18,7 +18,6 @@ export type Scalars = {
   Upload: any;
 };
 
-
 export type ArgsGetGroupePerUser = {
   ids: Array<Scalars['Int']>;
 };
@@ -39,11 +38,6 @@ export type AuthPayLoad = {
   email?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
 };
-
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
 
 
 export type File = {
@@ -183,8 +177,8 @@ export type Query = {
   getChat: Array<Message>;
   allUsersMessageByMe: Array<User>;
   allGroupe: Array<Groupe>;
-  allGroupeByUser: Array<Groupe>;
-  getOneGroupeByIds: Groupe;
+  getGroupeByMultipleUsers: Array<Groupe>;
+  getOneGroupeById: Groupe;
 };
 
 
@@ -221,12 +215,12 @@ export type QueryAllUsersMessageByMeArgs = {
 };
 
 
-export type QueryAllGroupeByUserArgs = {
+export type QueryGetGroupeByMultipleUsersArgs = {
   data: ArgsGetGroupePerUser;
 };
 
 
-export type QueryGetOneGroupeByIdsArgs = {
+export type QueryGetOneGroupeByIdArgs = {
   data: Scalars['Int'];
 };
 
@@ -250,6 +244,8 @@ export type User = {
   name: Scalars['String'];
   posts: Array<Post>;
   imageUrl?: Maybe<Scalars['String']>;
+  IsOnline?: Maybe<Scalars['Boolean']>;
+  connectedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type UserCreateInput = {
@@ -354,7 +350,6 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   ArgsMessageChat: ArgsMessageChat;
   AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
-  CacheControlScope: CacheControlScope;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   File: ResolverTypeWrapper<File>;
   Groupe: ResolverTypeWrapper<Groupe>;
@@ -407,11 +402,6 @@ export type ResolversParentTypes = {
   UserLoginInput: UserLoginInput;
   UserUniqueInput: UserUniqueInput;
 };
-
-export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
-  scope?: Maybe<CacheControlScope>; };
-
-export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AuthPayLoadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayLoad'] = ResolversParentTypes['AuthPayLoad']> = {
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -498,8 +488,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getChat?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType, RequireFields<QueryGetChatArgs, 'data'>>;
   allUsersMessageByMe?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryAllUsersMessageByMeArgs, 'data'>>;
   allGroupe?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType>;
-  allGroupeByUser?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryAllGroupeByUserArgs, 'data'>>;
-  getOneGroupeByIds?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<QueryGetOneGroupeByIdsArgs, 'data'>>;
+  getGroupeByMultipleUsers?: Resolver<Array<ResolversTypes['Groupe']>, ParentType, ContextType, RequireFields<QueryGetGroupeByMultipleUsersArgs, 'data'>>;
+  getOneGroupeById?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<QueryGetOneGroupeByIdArgs, 'data'>>;
 };
 
 export type ReturnGroupeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReturnGroupe'] = ResolversParentTypes['ReturnGroupe']> = {
@@ -519,6 +509,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  IsOnline?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  connectedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -544,13 +536,3 @@ export type Resolvers<ContextType = any> = {
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
-export type DirectiveResolvers<ContextType = any> = {
-  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
-};
-
-
-/**
- * @deprecated
- * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
- */
-export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;

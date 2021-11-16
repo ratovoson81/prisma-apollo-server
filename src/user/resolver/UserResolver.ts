@@ -1,4 +1,4 @@
-import { IdUser } from "./../../types";
+import { IdUser, User } from "./../../types";
 import { DateTimeResolver } from "graphql-scalars";
 import { Context } from "../../context";
 import jwt from "jsonwebtoken";
@@ -166,6 +166,22 @@ export const UserResolvers = {
       const user = context.prisma.user.findUnique({
         where: {
           id: decryptedToken.userId,
+        },
+      });
+      return user;
+    },
+    setOnline: (
+      _parent: any,
+      args: { idUser: number },
+      context: Context,
+      info: any
+    ) => {
+      const user = context.prisma.user.update({
+        where: {
+          id: args.idUser,
+        },
+        data: {
+          IsOnline: true,
         },
       });
       return user;
