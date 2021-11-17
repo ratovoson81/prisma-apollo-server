@@ -16,12 +16,11 @@ model User {
   name        String
   password    String
   imageUrl    String?
-  IsOnline    Boolean        @default(false)
+  isOnline    Boolean        @default(false)
   connectedAt DateTime       @default(now())
   posts       Post[]
   groupes     GroupeOnUser[]
   messages    Message[]
-
 }
 
 model Post {

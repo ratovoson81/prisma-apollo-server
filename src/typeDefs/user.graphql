@@ -4,7 +4,7 @@ type User {
   name: String!
   posts: [Post!]!
   imageUrl: String
-  IsOnline: Boolean
+  isOnline: Boolean
   connectedAt: DateTime
 }
 

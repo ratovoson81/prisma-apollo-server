@@ -52,7 +52,7 @@ export async function setConnected(token: string) {
         id: decryptedToken.userId,
       },
       data: {
-        IsOnline: true,
+        isOnline: true,
       },
     });
   } else {
@@ -70,7 +70,7 @@ export async function setDisconnect(token: string) {
         id: decryptedToken.userId,
       },
       data: {
-        IsOnline: false,
+        isOnline: false,
         connectedAt: new Date(),
       },
     });

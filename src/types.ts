@@ -102,6 +102,7 @@ export type Mutation = {
   isLogged?: Maybe<User>;
   sendMessage: Message;
   createGroupe: Groupe;
+  setOnline: User;
 };
 
 
@@ -143,6 +144,11 @@ export type MutationSendMessageArgs = {
 
 export type MutationCreateGroupeArgs = {
   data: ArgsGroupe;
+};
+
+
+export type MutationSetOnlineArgs = {
+  idUser: Scalars['Int'];
 };
 
 export type Post = {
@@ -244,7 +250,7 @@ export type User = {
   name: Scalars['String'];
   posts: Array<Post>;
   imageUrl?: Maybe<Scalars['String']>;
-  IsOnline?: Maybe<Scalars['Boolean']>;
+  isOnline?: Maybe<Scalars['Boolean']>;
   connectedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -464,6 +470,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   isLogged?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   sendMessage?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'data'>>;
   createGroupe?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<MutationCreateGroupeArgs, 'data'>>;
+  setOnline?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSetOnlineArgs, 'idUser'>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -509,7 +516,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  IsOnline?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isOnline?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   connectedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

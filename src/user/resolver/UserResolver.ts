@@ -181,7 +181,7 @@ export const UserResolvers = {
           id: args.idUser,
         },
         data: {
-          IsOnline: true,
+          isOnline: true,
         },
       });
       return user;
