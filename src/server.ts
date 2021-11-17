@@ -91,19 +91,24 @@ const io = new Server(httpServer, {
 
 io.on("connection", async (socket) => {
   let token = socket.handshake.query.token as any;
-  io.emit("arrivalUser", await setConnected(token));
+  console.log(token);
+  io.emit("update-status-user", await setConnected(token));
 
-  socket.on("add", (data) => {
-    console.log("add", data);
-    io.emit("ok", data);
+  socket.on("send-message", (data) => {
+    io.emit("arrival-message", data);
   });
 
-  socket.on("conn", (data) => {
+  socket.on("login", async (data) => {
     token = data;
+    io.emit("update-status-user", await setConnected(data));
+  });
+
+  socket.on("logout", async (data) => {
+    io.emit("update-status-user", await setDisconnect(data));
   });
 
   socket.on("disconnect", async () => {
     // set offline via token
-    io.emit("someone disconnect", await setDisconnect(token));
+    io.emit("update-status-user", await setDisconnect(token));
   });
 });
