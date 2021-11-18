@@ -56,7 +56,11 @@ export const GroupeResolvers = {
           },
         },
       });
-
+      result.sort(
+        (a: any, b: any) =>
+          new Date(b.messages[0]?.date).getTime() -
+          new Date(a.messages[0]?.date).getTime()
+      );
       return result;
     },
     getOneGroupeById: async (
