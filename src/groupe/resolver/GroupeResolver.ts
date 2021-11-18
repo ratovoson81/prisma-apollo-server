@@ -1,5 +1,10 @@
 import { Context } from "../../context";
-import { ArgsGetGroupePerUser, ArgsGroupe, Groupe } from "./../../types";
+import {
+  ArgsGetGroupePerUser,
+  ArgsGroupe,
+  ArgsMessageView,
+  Groupe,
+} from "./../../types";
 
 export const GroupeResolvers = {
   Query: {
@@ -113,6 +118,47 @@ export const GroupeResolvers = {
         },
       });
       return newGroupe;
+    },
+    viewMessage: async (
+      _parent: any,
+      args: { data: ArgsMessageView },
+      context: Context
+    ) => {
+      const result = await context.prisma.groupe.update({
+        where: {
+          id: args.data.idGroupe,
+        },
+        data: {
+          messages: {
+            updateMany: {
+              where: {
+                view: false,
+              },
+              data: {
+                view: true,
+                viewAt: new Date(),
+              },
+            },
+          },
+        },
+        include: {
+          users: true,
+          messages: true,
+        },
+      });
+
+      /*const result = await context.prisma.message.updateMany({
+        where: {
+          groupe: {
+            id: args.data.idGroupe,
+          },
+        },
+        data: {
+          view: true,
+          viewAt: new Date(),
+        },
+      });*/
+      return result;
     },
   },
 };

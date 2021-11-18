@@ -32,6 +32,10 @@ export type ArgsMessageChat = {
   idTo: Scalars['Int'];
 };
 
+export type ArgsMessageView = {
+  idGroupe: Scalars['Int'];
+};
+
 export type AuthPayLoad = {
   __typename?: 'AuthPayLoad';
   token: Scalars['String'];
@@ -105,6 +109,7 @@ export type Mutation = {
   sendMessage: Message;
   createGroupe: Groupe;
   setOnline: User;
+  viewMessage: Groupe;
 };
 
 
@@ -151,6 +156,11 @@ export type MutationCreateGroupeArgs = {
 
 export type MutationSetOnlineArgs = {
   idUser: Scalars['Int'];
+};
+
+
+export type MutationViewMessageArgs = {
+  data: ArgsMessageView;
 };
 
 export type Post = {
@@ -357,6 +367,7 @@ export type ResolversTypes = {
   ArgsGroupe: ArgsGroupe;
   String: ResolverTypeWrapper<Scalars['String']>;
   ArgsMessageChat: ArgsMessageChat;
+  ArgsMessageView: ArgsMessageView;
   AuthPayLoad: ResolverTypeWrapper<AuthPayLoad>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   File: ResolverTypeWrapper<File>;
@@ -388,6 +399,7 @@ export type ResolversParentTypes = {
   ArgsGroupe: ArgsGroupe;
   String: Scalars['String'];
   ArgsMessageChat: ArgsMessageChat;
+  ArgsMessageView: ArgsMessageView;
   AuthPayLoad: AuthPayLoad;
   DateTime: Scalars['DateTime'];
   File: File;
@@ -475,6 +487,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   sendMessage?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'data'>>;
   createGroupe?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<MutationCreateGroupeArgs, 'data'>>;
   setOnline?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSetOnlineArgs, 'idUser'>>;
+  viewMessage?: Resolver<ResolversTypes['Groupe'], ParentType, ContextType, RequireFields<MutationViewMessageArgs, 'data'>>;
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {

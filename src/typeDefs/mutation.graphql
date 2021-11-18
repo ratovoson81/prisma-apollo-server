@@ -10,5 +10,5 @@ type Mutation {
   sendMessage(data: MessageInput!): Message!
   createGroupe(data: ArgsGroupe!): Groupe!
   setOnline(idUser: Int!): User!
-  viewMessage(idMessage: Int!): Message!
+  viewMessage(data: ArgsMessageView!): Groupe!
 }

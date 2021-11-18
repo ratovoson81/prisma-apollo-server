@@ -1,6 +1,5 @@
-import { Message, MessageChat } from "./../../types";
 import { Context } from "./../../context";
-import { ArgsMessageChat, MessageInput } from "../../types";
+import { ArgsMessageChat, ArgsMessageView, MessageInput } from "../../types";
 
 export const MessageResolvers = {
   Query: {
@@ -63,21 +62,6 @@ export const MessageResolvers = {
         },
       });
       return newMessage;
-    },
-    viewMessage: async (
-      _parent: any,
-      args: { idMessage: number },
-      context: Context
-    ) => {
-      return await context.prisma.message.update({
-        where: {
-          id: args.idMessage,
-        },
-        data: {
-          view: true,
-          viewAt: new Date(),
-        },
-      });
     },
   },
   Message: {
