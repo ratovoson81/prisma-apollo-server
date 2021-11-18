@@ -42,7 +42,7 @@ export const MessageResolvers = {
   },
   Mutation: {
     sendMessage: async (
-      _paren: any,
+      _parent: any,
       args: { data: MessageInput },
       context: Context
     ) => {
@@ -63,6 +63,21 @@ export const MessageResolvers = {
         },
       });
       return newMessage;
+    },
+    viewMessage: async (
+      _parent: any,
+      args: { idMessage: number },
+      context: Context
+    ) => {
+      return await context.prisma.message.update({
+        where: {
+          id: args.idMessage,
+        },
+        data: {
+          view: true,
+          viewAt: new Date(),
+        },
+      });
     },
   },
   Message: {

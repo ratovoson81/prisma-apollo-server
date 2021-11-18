@@ -71,6 +71,8 @@ export type Message = {
   content: Scalars['String'];
   author: User;
   date: Scalars['DateTime'];
+  view: Scalars['Boolean'];
+  viewAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type MessageChat = {
@@ -362,8 +364,8 @@ export type ResolversTypes = {
   IdUser: IdUser;
   LoginAuthReturn: ResolverTypeWrapper<LoginAuthReturn>;
   Message: ResolverTypeWrapper<Message>;
-  MessageChat: ResolverTypeWrapper<MessageChat>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  MessageChat: ResolverTypeWrapper<MessageChat>;
   MessageInput: MessageInput;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
@@ -393,8 +395,8 @@ export type ResolversParentTypes = {
   IdUser: IdUser;
   LoginAuthReturn: LoginAuthReturn;
   Message: Message;
-  MessageChat: MessageChat;
   Boolean: Scalars['Boolean'];
+  MessageChat: MessageChat;
   MessageInput: MessageInput;
   Mutation: {};
   Post: Post;
@@ -446,6 +448,8 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  view?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  viewAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

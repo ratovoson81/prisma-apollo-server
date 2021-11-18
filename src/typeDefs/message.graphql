@@ -3,6 +3,8 @@ type Message {
   content: String!
   author: User!
   date: DateTime!
+  view: Boolean!
+  viewAt: DateTime
 }
 input MessageInput {
   content: String!

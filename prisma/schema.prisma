@@ -36,12 +36,14 @@ model Post {
 }
 
 model Message {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   content  String
-  author   User     @relation(fields: [authorId], references: [id])
+  author   User      @relation(fields: [authorId], references: [id])
   authorId Int
-  date     DateTime @default(now())
-  groupe   Groupe   @relation(fields: [groupeId], references: [id])
+  view     Boolean   @default(false)
+  viewAt   DateTime?
+  date     DateTime  @default(now())
+  groupe   Groupe    @relation(fields: [groupeId], references: [id])
   groupeId Int
 }
 
