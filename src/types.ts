@@ -34,6 +34,7 @@ export type ArgsMessageChat = {
 
 export type ArgsMessageView = {
   idGroupe: Scalars['Int'];
+  idUser: Scalars['Int'];
 };
 
 export type AuthPayLoad = {

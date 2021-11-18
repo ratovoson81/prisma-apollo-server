@@ -132,6 +132,7 @@ export const GroupeResolvers = {
           messages: {
             updateMany: {
               where: {
+                authorId: args.data.idUser,
                 view: false,
               },
               data: {
@@ -142,8 +143,19 @@ export const GroupeResolvers = {
           },
         },
         include: {
-          users: true,
-          messages: true,
+          users: {
+            include: {
+              user: true,
+            },
+          },
+          messages: {
+            include: {
+              author: true,
+            },
+            orderBy: {
+              date: "desc",
+            },
+          },
         },
       });
 

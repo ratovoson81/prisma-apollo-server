@@ -98,6 +98,10 @@ io.on("connection", async (socket) => {
     io.emit("arrival-message", data);
   });
 
+  socket.on("view-message", (data) => {
+    io.emit("arrival-view-message", data);
+  });
+
   socket.on("login", async (data) => {
     token = data;
     io.emit("update-status-user", await setConnected(data));

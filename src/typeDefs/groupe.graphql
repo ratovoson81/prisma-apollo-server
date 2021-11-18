@@ -21,4 +21,5 @@ input ArgsGetGroupePerUser {
 
 input ArgsMessageView {
   idGroupe: Int!
+  idUser: Int!
 }
