@@ -14,7 +14,7 @@ type Query {
   allUsersMessageByMe(data: IdUser!): [User!]!
   allGroupe: [Groupe!]!
   getGroupeByMultipleUsers(data: ArgsGetGroupePerUser!): [Groupe!]!
-  getOneGroupeById(data: Int!): Groupe!
+  getOneGroupeById(data: ArgsGetGroupeById!): Groupe!
 }
 enum SortOrder {
   asc

@@ -17,9 +17,16 @@ input ArgsGroupe {
 
 input ArgsGetGroupePerUser {
   ids: [Int!]!
+  skip: Int!
 }
 
 input ArgsMessageView {
   idGroupe: Int!
   idUser: Int!
+  skip: Int!
+}
+
+input ArgsGetGroupeById {
+  idGroupe: Int!
+  skip: Int!
 }

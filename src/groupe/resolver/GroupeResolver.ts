@@ -1,9 +1,9 @@
 import { Context } from "../../context";
 import {
+  ArgsGetGroupeById,
   ArgsGetGroupePerUser,
   ArgsGroupe,
   ArgsMessageView,
-  Groupe,
 } from "./../../types";
 
 export const GroupeResolvers = {
@@ -52,6 +52,8 @@ export const GroupeResolvers = {
             },
           },
           messages: {
+            skip: args.data.skip,
+            take: 20,
             include: {
               author: true,
             },
@@ -70,16 +72,31 @@ export const GroupeResolvers = {
     },
     getOneGroupeById: async (
       _parent: any,
-      args: { data: number },
+      args: { data: ArgsGetGroupeById },
       context: Context
     ) => {
-      const a = await context.prisma.groupe.findUnique({
+      return await context.prisma.groupe.findUnique({
         where: {
-          id: args.data,
+          id: args.data.idGroupe,
+        },
+        include: {
+          users: {
+            include: {
+              user: true,
+            },
+          },
+          messages: {
+            skip: args.data.skip,
+            take: 20,
+            include: {
+              author: true,
+            },
+            orderBy: {
+              date: "desc",
+            },
+          },
         },
       });
-      console.log(a);
-      return a;
     },
   },
   Mutation: {
@@ -159,17 +176,6 @@ export const GroupeResolvers = {
         },
       });
 
-      /*const result = await context.prisma.message.updateMany({
-        where: {
-          groupe: {
-            id: args.data.idGroupe,
-          },
-        },
-        data: {
-          view: true,
-          viewAt: new Date(),
-        },
-      });*/
       return result;
     },
   },

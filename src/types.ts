@@ -18,8 +18,14 @@ export type Scalars = {
   Upload: any;
 };
 
+export type ArgsGetGroupeById = {
+  idGroupe: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
 export type ArgsGetGroupePerUser = {
   ids: Array<Scalars['Int']>;
+  skip: Scalars['Int'];
 };
 
 export type ArgsGroupe = {
@@ -35,6 +41,7 @@ export type ArgsMessageChat = {
 export type ArgsMessageView = {
   idGroupe: Scalars['Int'];
   idUser: Scalars['Int'];
+  skip: Scalars['Int'];
 };
 
 export type AuthPayLoad = {
@@ -240,7 +247,7 @@ export type QueryGetGroupeByMultipleUsersArgs = {
 
 
 export type QueryGetOneGroupeByIdArgs = {
-  data: Scalars['Int'];
+  data: ArgsGetGroupeById;
 };
 
 export type ReturnGroupe = {
@@ -363,8 +370,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
+  ArgsGetGroupeById: ArgsGetGroupeById;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
   ArgsGroupe: ArgsGroupe;
   String: ResolverTypeWrapper<Scalars['String']>;
   ArgsMessageChat: ArgsMessageChat;
@@ -395,8 +403,9 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
+  ArgsGetGroupeById: ArgsGetGroupeById;
   Int: Scalars['Int'];
+  ArgsGetGroupePerUser: ArgsGetGroupePerUser;
   ArgsGroupe: ArgsGroupe;
   String: Scalars['String'];
   ArgsMessageChat: ArgsMessageChat;
