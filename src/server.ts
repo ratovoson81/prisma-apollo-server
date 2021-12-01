@@ -94,6 +94,10 @@ io.on("connection", async (socket) => {
   console.log(token);
   io.emit("update-status-user", await setConnected(token));
 
+  socket.on("create-chat", (data) => {
+    io.emit("arrival-create-chat", data.data);
+  });
+
   socket.on("send-message", (data) => {
     io.emit("arrival-message", data);
   });
@@ -107,12 +111,17 @@ io.on("connection", async (socket) => {
     io.emit("update-status-user", await setConnected(data));
   });
 
+  socket.on("typing", (data) => {
+    io.emit("arrival-typing", data);
+  });
+
   socket.on("logout", async (data) => {
     io.emit("update-status-user", await setDisconnect(data));
   });
 
   socket.on("disconnect", async () => {
-    // set offline via token
-    io.emit("update-status-user", await setDisconnect(token));
+    const user = await setDisconnect(token);
+    io.emit("update-status-user", user);
+    io.emit("arrival-typing-disconnect", user);
   });
 });

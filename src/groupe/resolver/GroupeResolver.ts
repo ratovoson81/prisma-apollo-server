@@ -130,8 +130,16 @@ export const GroupeResolvers = {
           },
         },
         include: {
-          users: true,
-          messages: true,
+          users: {
+            include: {
+              user: true,
+            },
+          },
+          messages: {
+            include: {
+              author: true,
+            },
+          },
         },
       });
       return newGroupe;
