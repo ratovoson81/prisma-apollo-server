@@ -76,7 +76,13 @@ app.use("/images", express.static(path.join(__dirname, "../images")));
 app.use(graphqlUploadExpress());
 server.start();
 
-server.applyMiddleware({ app, cors: corsOptions });
+server.applyMiddleware({
+  app,
+  cors: corsOptions,
+  bodyParserConfig: {
+    limit: "10mb",
+  },
+});
 
 httpServer.listen(4000, () => {
   console.log("🚀 Server ready at: http://localhost:4000/graphql");
@@ -116,7 +122,9 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("logout", async (data) => {
-    io.emit("update-status-user", await setDisconnect(data));
+    const user = await setDisconnect(token);
+    io.emit("update-status-user", user);
+    io.emit("arrival-typing-disconnect", user);
   });
 
   socket.on("disconnect", async () => {

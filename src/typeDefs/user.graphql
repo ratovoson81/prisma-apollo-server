@@ -13,7 +13,7 @@ input UserCreateInput {
   name: String!
   password: String!
   posts: [PostCreateInput!]
-  image: Upload!
+  image: String!
 }
 input UserUniqueInput {
   email: String

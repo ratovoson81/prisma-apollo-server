@@ -279,7 +279,7 @@ export type UserCreateInput = {
   name: Scalars['String'];
   password: Scalars['String'];
   posts?: Maybe<Array<PostCreateInput>>;
-  image: Scalars['Upload'];
+  image: Scalars['String'];
 };
 
 export type UserLoginInput = {
